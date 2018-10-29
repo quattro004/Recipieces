@@ -1,6 +1,6 @@
 using System;
 
-namespace RecipiecesWeb.ViewModels
+namespace RecipiecesWeb.Models
 {
     public class ErrorViewModel
     {
