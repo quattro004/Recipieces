@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using RecipiecesWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using RecipiecesWeb.Areas.Identity.Services;
 
 namespace RecipiecesWeb
 {
@@ -34,9 +36,9 @@ namespace RecipiecesWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlite(
+            //         Configuration.GetConnectionString("DefaultConnection")));
             // services.AddDefaultIdentity<IdentityUser>()
             //     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -73,6 +75,9 @@ namespace RecipiecesWeb
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

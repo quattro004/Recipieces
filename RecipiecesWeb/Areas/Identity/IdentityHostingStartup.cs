@@ -19,8 +19,11 @@ namespace RecipiecesWeb.Areas.Identity
                     options.UseSqlite(
                         context.Configuration.GetConnectionString("RecipiecesWebIdentityDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<RecipiecesWebIdentityDbContext>();
+                services.AddDefaultIdentity<IdentityUser>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<RecipiecesWebIdentityDbContext>();
             });
         }
     }

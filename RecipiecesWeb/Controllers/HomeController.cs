@@ -16,7 +16,6 @@ namespace RecipiecesWeb.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -26,7 +25,7 @@ namespace RecipiecesWeb.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            //ViewData["Message"] = "";
 
             return View();
         }
