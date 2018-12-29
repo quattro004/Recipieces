@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipiecesWeb.Models;
+using RecipiecesWeb.Services;
 
 namespace RecipiecesWeb.Controllers
 {
@@ -18,8 +19,8 @@ namespace RecipiecesWeb.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Message"] = "Hodge Family Digital Heirloom.";
+            
             return View();
         }
 

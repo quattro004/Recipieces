@@ -38,12 +38,20 @@
             </div>
         </div>
     </nav>
-
     <partial name="_CookieConsentPartial" />
 
     <div class="container-fluid body-content">
+        @await Component.InvokeAsync("AlertControl", 
+        new 
+        {
+            kindOfAlert = AlertService.AlertData.KindOfAlert, 
+            title = AlertService.AlertData.Title,
+            message = AlertService.AlertData.Message
+        })
         @RenderBody()
+        <hr />
          <footer>
+             <p>&copy; 2018 - Reese J. Hodge IV</p>
         </footer>
     </div>
 

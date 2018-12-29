@@ -1,0 +1,11 @@
+@model RecipiecesWeb.Models.AlertControlViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.KindOfAlert))
+{
+    <div class="alert alert-@Model.KindOfAlert alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>@Model.Title</strong> @Model.Message
+    </div>
+}

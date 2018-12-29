@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RecipiecesWeb.Areas.Identity.Services;
+using RecipiecesWeb.Services;
 
 namespace RecipiecesWeb
 {
@@ -35,12 +36,6 @@ namespace RecipiecesWeb
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            // services.AddDbContext<ApplicationDbContext>(options =>
-            //     options.UseSqlite(
-            //         Configuration.GetConnectionString("DefaultConnection")));
-            // services.AddDefaultIdentity<IdentityUser>()
-            //     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -77,6 +72,7 @@ namespace RecipiecesWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IAlertService, AlertService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
