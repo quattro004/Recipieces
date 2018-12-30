@@ -271,3 +271,6 @@ __pycache__/
 
 # VS Code
 .vscode/
+
+# SQL Lite database
+*.db
