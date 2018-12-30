@@ -19,7 +19,7 @@ namespace RecipiecesWeb.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Hodge Family Digital Heirloom.";
+            ViewData["Message"] = "Hodge Family Digital Heirloom";
             
             return View();
         }
