@@ -31,6 +31,16 @@ namespace RecipiecesWeb.Controllers
             return View();
         }
 
+     
+        [Authorize(Roles = "Admins")]
+        public IActionResult Users()
+        {
+            ViewData["Message"] = "Registered users";
+
+            // TODO: finish him!
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RecipiecesWeb.Models;
 
 namespace RecipiecesWeb.Areas.Identity.Data
 {
-    public class RecipiecesWebIdentityDbContext : IdentityDbContext<IdentityUser>
+    public class RecipiecesWebIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
         public RecipiecesWebIdentityDbContext(DbContextOptions<RecipiecesWebIdentityDbContext> options)
             : base(options)

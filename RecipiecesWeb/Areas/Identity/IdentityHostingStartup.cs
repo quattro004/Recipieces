@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipiecesWeb.Areas.Identity.Data;
+using RecipiecesWeb.Models;
 
 [assembly: HostingStartup(typeof(RecipiecesWeb.Areas.Identity.IdentityHostingStartup))]
 namespace RecipiecesWeb.Areas.Identity
@@ -19,11 +20,13 @@ namespace RecipiecesWeb.Areas.Identity
                     options.UseSqlite(
                         context.Configuration.GetConnectionString("RecipiecesWebIdentityDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(config =>
+                services.AddDefaultIdentity<ApplicationUser>(config =>
                 {
                     config.SignIn.RequireConfirmedEmail = true;
                 })
-                .AddEntityFrameworkStores<RecipiecesWebIdentityDbContext>();
+                .AddEntityFrameworkStores<RecipiecesWebIdentityDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
             });
         }
     }

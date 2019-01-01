@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RecipiecesWeb.Models;
 
 namespace RecipiecesWeb.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager,
+        public ConfirmEmailModel(UserManager<ApplicationUser> userManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
