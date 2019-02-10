@@ -104,8 +104,9 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Welcome to Recipieces.com. Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                    // await _signInManager.SignInAsync(user, isPersistent: false);
 
+                    _alertService.SetAlert("Registration:", "Please check your email for the registration confirmation.");
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
