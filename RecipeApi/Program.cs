@@ -11,9 +11,16 @@ using NLog.Web;
 
 namespace RecipeApi
 {
+    /// <summary>
+    /// Runs the recipe api.
+    /// </summary>
     public class Program
     {
-public static void Main(string[] args)
+        /// <summary>
+        /// Main entry point.
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main(string[] args)
         {
             // NLog: setup the logger first to catch all errors
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
@@ -37,6 +44,11 @@ public static void Main(string[] args)
             }
         }
 
+        /// <summary>
+        /// Builds up the web host.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

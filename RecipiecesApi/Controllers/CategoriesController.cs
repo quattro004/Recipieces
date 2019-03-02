@@ -4,29 +4,20 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RecipeApi.Extensions;
-using RecipeApi.Models;
-using RecipeApi.Services;
+using RecipiecesApi.Models;
+using RecipiecesApi.Services;
 
-namespace RecipeApi.Controllers
+namespace RecipiecesApi.Controllers
 {
-    /// <summary>
-    /// Manages recipe categories.
-    /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly DataService<Category> _categoryService;
+        private readonly CategoryService _categoryService;
         private readonly ILogger<CategoriesController> _logger;
 
-        /// <summary>
-        /// Constructs a <see cref="CategoriesController" />
-        /// </summary>
-        /// <param name="categoryService"></param>
-        /// <param name="logger"></param>
-        public CategoriesController(DataService<Category> categoryService, ILogger<CategoriesController> logger)
+        public CategoriesController(CategoryService categoryService, ILogger<CategoriesController> logger)
         {
             _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -44,7 +35,7 @@ namespace RecipeApi.Controllers
         }
 
         /// <summary>
-        /// Gets a category by <paramref name="id" />.
+        /// Gets a category by <paramref cref="id" />.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A <see cref="Category" /> if one exists by the identifier.</returns>
@@ -55,11 +46,12 @@ namespace RecipeApi.Controllers
         {
             _logger.LogDebug("Getting a category with id {0}", id);
             var category = _categoryService.Get(id);
-            if (category.DoesNotExist)
+
+            if (category == null)
             {
                 return NotFound();
-            } 
-            
+            }
+
             return category;
         }
 
@@ -67,32 +59,15 @@ namespace RecipeApi.Controllers
         /// Creates a new category.
         /// </summary>
         /// <param name="category"></param>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     POST /Category
-        ///     {
-        ///        "name": "Cat1",
-        ///        "description": "This is an awesome category!"
-        ///     }
-        ///
-        /// </remarks>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateAsync(Category category)
         {
-            var catName = category.Name;
-            _logger.LogDebug("Creating a category named {0}", catName);
+            _logger.LogDebug("Creating a category named {0}", category.Name);
             category = await _categoryService.CreateAsync(category);
-            // Check to see if the category was created successfully, a null object pattern is used for duplicates.
-            // The name is required so if the client didn't pass one in the framework will handle.
-            if (category.DoesNotExist)
-            {
-                ModelState.AddModelError(nameof(CategoriesController), $"Category {catName} already exists.");
-                return BadRequest(ModelState);
-            }
+
             return CreatedAtRoute("GetCategory", new { id = category.Id }, category);
         }
 
@@ -101,29 +76,21 @@ namespace RecipeApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="categoryIn"></param>
-        ///  /// <remarks>
-        /// Sample request:
-        ///
-        ///     PUT /Category
-        ///     {
-        ///        "name": "Cat2",
-        ///        "description": "This is an even awesomer category!"
-        ///     }
-        ///
-        /// </remarks>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Update(string id, Category categoryIn)
+        public IActionResult Update(string id, Category categoryIn)
         {
             _logger.LogDebug("Updating a category with id {0}", id);
-            var updatedCount = await _categoryService.Update(id, categoryIn);
+            var category = _categoryService.Get(id);
 
-            if (updatedCount == 0)
+            if (category == null)
             {
                 return NotFound();
             }
+
+            _categoryService.Update(id, categoryIn);
 
             return NoContent();
         }
@@ -136,15 +103,17 @@ namespace RecipeApi.Controllers
         [HttpDelete("{id:length(24)}")]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             _logger.LogDebug("Deleting a category with id {0}", id);
-            var deletedCount = await _categoryService.Remove(id);
-            
-            if (deletedCount == 0)
+            var category = _categoryService.Get(id);
+
+            if (category == null)
             {
                 return NotFound();
             }
+
+            _categoryService.Remove(category.Id);
 
             return NoContent();
         }

@@ -14,22 +14,40 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RecipeApi.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using RecipeApi.Models;
 
 namespace RecipeApi
 {
+    /// <summary>
+    /// Main startup class.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Constructs a <see cref="Startup" />
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configuration for the API
+        /// </summary>
+        /// <value></value>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<CategoryService>();
+            services.AddScoped<DataService<Category>>();
+            services.AddScoped<DataService<Recipe>>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
@@ -42,7 +60,11 @@ namespace RecipeApi
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -64,6 +86,7 @@ namespace RecipeApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Recipe API V1");
                 c.RoutePrefix = string.Empty;
+                c.DocExpansion(DocExpansion.None);
             });
             // TODO: need to get SSL working
             // app.UseHttpsRedirection();

@@ -3,14 +3,13 @@ using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace RecipeApi.Models
+namespace RecipiecesApi.Models
 {
-    /// <summary>
-    /// Represents a recipe category.
-    /// </summary>
-    public class Category : DataObject
+    public class Category
     {
-#pragma warning disable CS1591 // Disable xml comment warnings
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         
         [Required]
         [BsonElement("Name")]
@@ -18,5 +17,11 @@ namespace RecipeApi.Models
         
         [BsonElement("Description")]
         public string Description { get; set; }
+
+        [BsonElement("CreatedOn")]
+        public string CreatedOn { get; set; }
+
+        [BsonElement("ModifiedOn")]
+        public string ModifiedOn { get; set; }
     }
 }

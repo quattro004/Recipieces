@@ -28,13 +28,13 @@ namespace RecipiecesApi.Controllers
             {
                 new Recipe
                 {
-                    Id = 1,
+                    Id = "1",
                     Title = "Cheesy Mac",
                     Description = "This is the best cheesy mac!"
                 },
                 new Recipe
                 {
-                    Id = 2,
+                    Id = "2",
                     Title = "Fried chicken",
                     Description = "This is the best chick!"
                 }
@@ -50,7 +50,7 @@ namespace RecipiecesApi.Controllers
 
                 return Ok(new Recipe
                 {
-                    Id = 1,
+                    Id = "1",
                     Title = "Cheesy Mac",
                     Description = "This is the best cheesy mac!"
                 });

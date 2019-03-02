@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using RecipeApi.Models;
+using RecipiecesApi.Models;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace RecipeApi.Services
+namespace RecipiecesApi.Services
 {
     public class CategoryService
     {
@@ -20,9 +20,9 @@ namespace RecipeApi.Services
             try
             {
                 _logger.LogDebug("Creating a MongoClient");
-                var client = new MongoClient(config.GetConnectionString("RecipeDb"));
-                _logger.LogDebug("Getting database RecipeDb");
-                var database = client.GetDatabase("RecipeDb");
+                var client = new MongoClient(config.GetConnectionString("RecipiecesDb"));
+                _logger.LogDebug("Getting database RecipiecesDb");
+                var database = client.GetDatabase("RecipiecesDb");
                 _logger.LogDebug("Getting the categories collection");
                 _categories = database.GetCollection<Category>("Categories");
             }
