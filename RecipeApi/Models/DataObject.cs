@@ -25,12 +25,14 @@ namespace RecipeApi.Models
         /// <summary>
         /// Determines whether this object was created or updated in the data store.
         /// </summary>
+        [BsonIgnore]
         public bool DoesNotExist { get; set; }
 
         /// <summary>
         /// Null object pattern. Use when a object can't be created or updated in the data store.
         /// </summary>
         /// <value></value>
+        [BsonIgnore]
         public static DataObject NotCreated = new DataObject
         {
             Id = string.Empty,

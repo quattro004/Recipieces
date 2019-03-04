@@ -39,7 +39,7 @@ namespace RecipeApi.Services
                 _logger.LogDebug("Getting database RecipeDb");
                 var database = client.GetDatabase("RecipeDb");
 
-                var name = nameof(T);
+                var name = typeof(T).Name;
                 _logger.LogDebug("Getting the {0} collection", name);
                 _data = database.GetCollection<T>(name);
             }

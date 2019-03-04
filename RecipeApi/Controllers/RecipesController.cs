@@ -72,23 +72,19 @@ namespace RecipeApi.Controllers
         ///
         ///     POST /Recipe
         ///     {
-        ///         "id": "string",
-        ///         "title": "string",
-        ///         "description": "string",
-        ///         "instructions": ["string"], 
-        ///         "prepTime": "string",
-        ///         "cookTime": "string",
-        ///         "keywords": ["string"],
-        ///         "yield": "string",
-        ///         "ingredients": ["string"],
-        ///         "preparation": "string",
+        ///         "title": "Chicken Fried Steak",
+        ///         "description": "It's the best ever!",
+        ///         "instructions": ["Do work", "Be awesome", "Eat Food"], 
+        ///         "prepTime": "10 minutes",
+        ///         "cookTime": "30 minutes",
+        ///         "keywords": ["Chicken", "Steak"],
+        ///         "yield": "Serves 10",
+        ///         "ingredients": ["Chicken", "Skirt steak", "Salt", "Pepper"],
+        ///         "preparation": "",
         ///         "category": 
         ///         {
-        ///             "id": "string",
-        ///             "name": "string",
-        ///             "description": "string",
-        ///             "createdOn": "2019-03-02T12:13:18.909Z",
-        ///             "modifiedOn": "2019-03-02T12:13:18.909Z"
+        ///             "id": "5c7aedd2f41b837001a763ff",
+        ///             "name": "Dinners"
         ///         }
         ///     }
         /// </remarks>

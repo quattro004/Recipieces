@@ -26,10 +26,10 @@ namespace RecipeApi.Models
         public List<string> Instructions { get; set; }
 
         [BsonElement("PrepTime")]
-        public string PrepTime { get; set; }
+        public TimeSpan PrepTime { get; set; }
 
         [BsonElement("CookTime")]
-        public string CookTime { get; set; }
+        public TimeSpan CookTime { get; set; }
 
         [BsonElement("Keywords")]
         public List<string> Keywords { get; set; }
