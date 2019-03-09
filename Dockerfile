@@ -1,23 +1,18 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /app
-EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
-WORKDIR /src
-COPY Recipieces.sln ./
-COPY RecipiecesWeb/RecipiecesWeb.csproj RecipiecesWeb/
-COPY Recipieces.FeaturesPlugin/Recipieces.FeaturesPlugin.csproj Recipieces.FeaturesPlugin/
-COPY Recipieces.PluginProvider/Recipieces.PluginProvider.csproj Recipieces.PluginProvider/
-RUN dotnet restore
+# copy csproj and restore as distinct layers
+COPY *.sln ./
+COPY RecipeApi/*.csproj ./RecipeApi/
+RUN dotnet restore RecipeApi.sln 
 
-COPY . .
-WORKDIR /src
-RUN dotnet build -c Release -o /app
+# copy everything else and build app
+COPY RecipeApi/. ./RecipeApi/
+WORKDIR /app/RecipeApi
+RUN dotnet publish -c Release -o out
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "RecipiecesWeb.dll"]
+COPY --from=build /app/RecipeApi/out ./
+ENTRYPOINT ["dotnet", "RecipeApi.dll"]
