@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipieces.FeaturesPlugin", "Recipieces.FeaturesPlugin\Recipieces.FeaturesPlugin.csproj", "{BA173413-6B18-4664-8AED-39F5D962415A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipieces.PluginProvider", "Recipieces.PluginProvider\Recipieces.PluginProvider.csproj", "{0590E6AE-AB58-4A04-A951-341214583703}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipiecesWeb", "RecipiecesWeb\RecipiecesWeb.csproj", "{F00754FC-FB04-4957-B262-94AFCA8F2134}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApi", "RecipeApi\RecipeApi.csproj", "{CB495FA4-75FD-484E-98CE-E18A275762AF}"
@@ -24,30 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|x64.Build.0 = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Debug|x86.Build.0 = Debug|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|x64.ActiveCfg = Release|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|x64.Build.0 = Release|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|x86.ActiveCfg = Release|Any CPU
-		{BA173413-6B18-4664-8AED-39F5D962415A}.Release|x86.Build.0 = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|x64.Build.0 = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Debug|x86.Build.0 = Debug|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|x64.ActiveCfg = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|x64.Build.0 = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|x86.ActiveCfg = Release|Any CPU
-		{0590E6AE-AB58-4A04-A951-341214583703}.Release|x86.Build.0 = Release|Any CPU
 		{F00754FC-FB04-4957-B262-94AFCA8F2134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F00754FC-FB04-4957-B262-94AFCA8F2134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F00754FC-FB04-4957-B262-94AFCA8F2134}.Debug|x64.ActiveCfg = Debug|Any CPU
