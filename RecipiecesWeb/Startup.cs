@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RecipiecesWeb.Areas.Identity.Services;
 using RecipiecesWeb.Services;
+using RecipeUIClassLib.Areas.Recipes.Services;
 
 namespace RecipiecesWeb
 {
@@ -69,11 +70,13 @@ namespace RecipiecesWeb
                 options.SlidingExpiration = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IAlertService, AlertService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.AddHttpClient<ICategoryService, CategoryService>();
+            services.AddHttpClient<IRecipeService, RecipeService>();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,13 +90,12 @@ namespace RecipiecesWeb
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseHsts(); 
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -102,6 +104,7 @@ namespace RecipiecesWeb
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿@page
+@model RecipeUIClassLib.Areas.Recipes.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_Message" />
+<p> From  RecipeUIClassLib\Areas\Recipes\Pages\Index.cshtml</p>
+<ul>
+    @foreach (var recipe in Model.Recipes)
+    {
+        <li>@recipe.Title</li>
+    }
+</ul>
