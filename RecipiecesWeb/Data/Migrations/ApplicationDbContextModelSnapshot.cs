@@ -3,18 +3,18 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RecipiecesWeb.Areas.Identity.Data;
+using RecipiecesWeb.Data;
 
 namespace RecipiecesWeb.Data.Migrations
 {
-    [DbContext(typeof(RecipiecesWebIdentityDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -37,11 +37,6 @@ namespace RecipiecesWeb.Data.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new { Id = "f786af09-c40f-4afb-9595-381dc850708b", ConcurrencyStamp = "d0edb8ae-cb70-4bad-98ec-0d8b95a7b1f5", Name = "Admins" },
-                        new { Id = "0556b74f-dca3-479e-ac5a-1752c1d9e7b1", ConcurrencyStamp = "d5c38e3e-49ed-4d3d-a486-6685494fb8c8", Name = "Users" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

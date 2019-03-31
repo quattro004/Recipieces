@@ -89,12 +89,6 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                if(result.IsNotAllowed && 
-                    !await _signInManager.UserManager.IsEmailConfirmedAsync(new ApplicationUser(Input.Email)))
-                {
-                    ModelState.AddModelError(string.Empty, "Email address not confirmed.");
-                    return Page();
-                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

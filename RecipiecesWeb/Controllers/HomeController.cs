@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipiecesWeb.Models;
-using RecipiecesWeb.Services;
 
 namespace RecipiecesWeb.Controllers
 {
@@ -14,35 +13,21 @@ namespace RecipiecesWeb.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "ya ain't livin if ya ain't eatin good!";
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Privacy()
         {
-            ViewData["Message"] = "Hodge Family Digital Heirloom";
-            
             return View();
         }
 
-        public IActionResult Contact()
-        {
-            //ViewData["Message"] = "";
-
-            return View();
-        }
-
-     
         [Authorize(Roles = "Admins")]
         public IActionResult Users()
         {
             ViewData["Message"] = "Registered users";
 
             // TODO: finish him!
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 

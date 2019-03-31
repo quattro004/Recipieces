@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,9 +14,9 @@ using RecipiecesWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using RecipiecesWeb.Areas.Identity.Services;
-using RecipiecesWeb.Services;
 using RecipeUIClassLib.Areas.Recipes.Services;
+using RecipiecesWeb.Areas.Identity.Services;
+using RecipiecesWeb.Models;
 
 namespace RecipiecesWeb
 {
@@ -38,6 +39,17 @@ namespace RecipiecesWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddDefaultUI(UIFramework.Bootstrap4)
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -45,7 +57,7 @@ namespace RecipiecesWeb
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 8;
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
@@ -56,7 +68,7 @@ namespace RecipiecesWeb
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -66,12 +78,13 @@ namespace RecipiecesWeb
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
                 options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddScoped<IAlertService, AlertService>();
+            // services.AddScoped<IAlertService, AlertService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<IRecipeService, RecipeService>();
@@ -90,12 +103,14 @@ namespace RecipiecesWeb
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts(); 
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -104,7 +119,6 @@ namespace RecipiecesWeb
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            
         }
     }
 }

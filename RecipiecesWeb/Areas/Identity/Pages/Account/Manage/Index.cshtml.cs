@@ -42,13 +42,13 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Text)]
-            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 2)]
             [Display(Name ="First Name")]
             public string FirstName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
-            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 2)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
@@ -69,19 +69,18 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            // var userName = await _userManager.GetUserNameAsync(user);
-            // var email = await _userManager.GetEmailAsync(user);
-            // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            // var firstName = await _userManager.GetUserAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = user.UserName;
+            Username = userName;
 
             Input = new InputModel
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                Email = email,
+                PhoneNumber = phoneNumber
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -100,6 +99,16 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
             }
 
             var email = await _userManager.GetEmailAsync(user);
@@ -154,7 +163,7 @@ namespace RecipiecesWeb.Areas.Identity.Pages.Account.Manage
             await _emailSender.SendEmailAsync(
                 email,
                 "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                $"Welcome to Recipieces.com. Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

@@ -11,7 +11,10 @@ namespace RecipiecesWeb.Models
         public ApplicationUser(string email) : base(email) { }
         public ApplicationUser() : base() { }
 
+        [PersonalData]
         public string FirstName { get; set; }
+        
+        [PersonalData]
         public string LastName { get; set; }
         
     }

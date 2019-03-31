@@ -1,17 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RecipiecesWeb.Models;
 
-namespace RecipiecesWeb.Areas.Identity.Data
+namespace RecipiecesWeb.Data
 {
-    public class RecipiecesWebIdentityDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public RecipiecesWebIdentityDbContext(DbContextOptions<RecipiecesWebIdentityDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }

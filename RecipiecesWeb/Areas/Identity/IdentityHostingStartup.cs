@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RecipiecesWeb.Areas.Identity.Data;
-using RecipiecesWeb.Models;
+using RecipiecesWeb.Data;
 
 [assembly: HostingStartup(typeof(RecipiecesWeb.Areas.Identity.IdentityHostingStartup))]
 namespace RecipiecesWeb.Areas.Identity
@@ -16,17 +15,6 @@ namespace RecipiecesWeb.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<RecipiecesWebIdentityDbContext>(options =>
-                    options.UseSqlite(
-                        context.Configuration.GetConnectionString("RecipiecesWebIdentityDbContextConnection")));
-
-                services.AddDefaultIdentity<ApplicationUser>(config =>
-                {
-                    config.SignIn.RequireConfirmedEmail = true;
-                })
-                .AddEntityFrameworkStores<RecipiecesWebIdentityDbContext>()
-                .AddDefaultUI()
-                .AddDefaultTokenProviders();
             });
         }
     }
