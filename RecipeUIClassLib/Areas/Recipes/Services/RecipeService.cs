@@ -28,10 +28,20 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         }
 
         /// <summary>
+        /// Creates the specified <paramref name="recipe" />
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <returns></returns>
+        public async Task CreateAsync(RecipeViewModel recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Gets a list of all the recipes.
         /// </summary>
         /// <returns>List of <see cref="RecipeViewModel" />.</returns>
-        public async Task<IEnumerable<RecipeViewModel>> GetRecipes()
+        public async Task<IEnumerable<RecipeViewModel>> GetRecipesAsync()
         {
             var uri = Path.Combine(_remoteServiceBaseUrl, "recipes");
 

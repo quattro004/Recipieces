@@ -22,7 +22,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Recipes = await _recipeService.GetRecipes();
+            Recipes = await _recipeService.GetRecipesAsync();
 
             return Page();
         }

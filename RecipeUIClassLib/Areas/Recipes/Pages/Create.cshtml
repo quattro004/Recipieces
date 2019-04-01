@@ -1,0 +1,77 @@
+﻿@page
+@model RecipeUIClassLib.Areas.Recipes.Pages.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">     
+        <div class="col">
+            <label asp-for="Recipe.Title" class="control-label"></label>
+            <input asp-for="Recipe.Title" class="form-control" autofocus placeholder="Title" />
+            <span asp-validation-for="Recipe.Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-4">
+            <label asp-for="Recipe.Yield" class="control-label"></label>
+            <input asp-for="Recipe.Yield" class="form-control" placeholder="Yield" />
+            <span asp-validation-for="Recipe.Yield" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <label asp-for="Recipe.Keywords" class="control-label"></label>
+            <input asp-for="Recipe.Keywords" class="form-control" placeholder="Keywords" />
+            <span asp-validation-for="Recipe.Keywords" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">     
+        <div class="col">
+            <label asp-for="Recipe.Description" class="control-label"></label>
+            <textarea asp-for="Recipe.Description" class="form-control" rows="2" placeholder="Enter Description"></textarea>
+            <span asp-validation-for="Recipe.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">             
+        <div class="col">
+            <label asp-for="Recipe.Ingredients" class="control-label"></label>
+            <textarea asp-for="Recipe.Ingredients" class="form-control" rows="4" placeholder="Enter a list of ingredients"></textarea>
+            <span asp-validation-for="Recipe.Ingredients" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <label asp-for="Recipe.Preparation" class="control-label"></label>
+            <textarea asp-for="Recipe.Preparation" class="form-control" rows="2" placeholder="Enter any preparation steps"></textarea>
+            <span asp-validation-for="Recipe.Preparation" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-4">
+            <label asp-for="Recipe.PrepTime" class="control-label"></label>
+            <input asp-for="Recipe.PrepTime" class="form-control" placeholder="Prep Time" />
+            <span asp-validation-for="Recipe.PrepTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <label asp-for="Recipe.Instructions" class="control-label"></label>
+            <textarea asp-for="Recipe.Instructions" class="form-control" rows="5" placeholder="Enter the cooking steps"></textarea>
+            <span asp-validation-for="Recipe.Instructions" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-4">
+            <label asp-for="Recipe.CookTime" class="control-label"></label>
+            <input asp-for="Recipe.CookTime" class="form-control" placeholder="Cook Time" />
+            <span asp-validation-for="Recipe.CookTime" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Create Recipe</button>
+    <a asp-page="Index">Back to List</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
