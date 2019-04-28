@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipiecesWeb.Areas.Identity.Services;
 using RecipiecesWeb.Models;
+using RecipeUIClassLib.Areas.Recipes.Models;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace RecipiecesWeb
 {
@@ -88,6 +90,7 @@ namespace RecipiecesWeb
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<IRecipeService, RecipeService>();
+            services.Configure<RecipeApiOptions>(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -104,10 +107,14 @@ namespace RecipiecesWeb
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+            
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

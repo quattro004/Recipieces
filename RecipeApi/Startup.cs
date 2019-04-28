@@ -74,7 +74,7 @@ namespace RecipeApi
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // app.UseHsts();
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -88,7 +88,7 @@ namespace RecipeApi
                 c.RoutePrefix = string.Empty;
                 c.DocExpansion(DocExpansion.None);
             });
-            // TODO: need to get SSL working
+
             // app.UseHttpsRedirection();
             app.UseMvc();
         }
