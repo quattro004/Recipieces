@@ -1,27 +1,29 @@
+#docker-compose.yml (Base)
 version: '3.4'
-
 services:
-  recipieces-web:
-    image: recipieces-web
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - "3000:80"
-    depends_on:
-      - recipe-api
-
   recipe-api:
-    image: recipe-api
+    image: recipieces/recipe-api:${TAG:-latest}
     build:
       context: .
       dockerfile: RecipeApi/Dockerfile
-    ports:
-      - "5000:80"
     depends_on:
-      - mongodb
+      - mongo
+
+  web:
+    image: recipieces/web:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - recipe-api
+    volumes:
+       - sqllite-data:/home/reese/src/Recipieces/RecipiecesWeb
   
-  mongodb:
+  mongo:
     image: mongo
-    ports:
-      - "27017:27017"
+    volumes:
+       - mongodb-data:/var/lib/mongodb
+
+volumes:
+  sqllite-data:
+  mongodb-data:
