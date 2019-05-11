@@ -9,6 +9,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
     /// </summary>
     public class RecipeViewModel
     {
+        public string Id { get; set; }
+        
         [Required]
         public string Title { get; set; }
         

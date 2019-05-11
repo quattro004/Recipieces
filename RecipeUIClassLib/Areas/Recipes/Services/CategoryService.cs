@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
 
@@ -14,17 +16,19 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
     public class CategoryService : ICategoryService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _remoteServiceBaseUrl;
+        private readonly ILogger _logger;
+        private readonly RecipeApiOptions _options;
 
         /// <summary>
         /// Constructs a <see cref="CategoryService" /> using a typed <see cref="HttpClient" />.
         /// </summary>
         /// <param name="httpClient"></param>
-        public CategoryService(HttpClient httpClient)
+        public CategoryService(HttpClient httpClient, IOptionsMonitor<RecipeApiOptions> optionsAccessor, 
+            ILogger<RecipeService> logger)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            // TODO: send this in from config
-            _remoteServiceBaseUrl = "http://localhost:5000/api/";
+            _options = optionsAccessor.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
         /// <summary>
@@ -33,9 +37,12 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         /// <returns>List of <see cref="CategoryViewModel" />.</returns>
         public async Task<IEnumerable<CategoryViewModel>> GetCategories()
         {
-            var uri = Path.Combine(_remoteServiceBaseUrl, "categories");
+            _logger.LogDebug("Getting all categories");
+            var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");
+            _logger.LogDebug("RecipeApi url is {0}", uri);
 
             var responseString = await _httpClient.GetStringAsync(uri);
+            _logger.LogDebug("Got categories from the API, woot");
 
             var categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(responseString);
             return categories;

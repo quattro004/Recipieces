@@ -8,9 +8,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
     /// </summary>
     public class CategoryViewModel
     {
-        [Required]
+        public string Id { get; set; }
+
         public string Name { get; set; }
-        
-        public string Description { get; set; }
     }
 }
