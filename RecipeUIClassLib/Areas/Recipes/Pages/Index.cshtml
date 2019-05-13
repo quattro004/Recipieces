@@ -5,13 +5,11 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-
 <div class="row">
     <h3 class="col-10">Recipes</h3>
-    <button asp-page="Create" type="button" class="col-2 btn btn-outline-primary btn-sm">New Recipe</button>
+    <a asp-page="Create" class="col-2 btn btn-outline-primary">New Recipe</a>
 </div>
-
+<hr />
 @if (!Model.Recipes.Any())
 {
     <p class="row">No recipes have been created yet.</p>
@@ -33,14 +31,13 @@ else
                     <p class="card-text">@recipe.Description</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                        <button asp-page="Details" asp-route-id="@recipe.Id" 
-                            type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                        <button type="button" asp-page="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        <a asp-page="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a asp-page="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
                         </div>
                         <small class="text-muted">@recipe.Yield</small>
                     </div>
                 </div>
             </div>
         }
-    </div>
+    </div>        
 }
