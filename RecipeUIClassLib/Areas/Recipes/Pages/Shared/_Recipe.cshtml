@@ -1,0 +1,63 @@
+
+@model RecipeUIClassLib.Areas.Recipes.Models.RecipeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="form-row">     
+    <div class="form-group col">
+        <input asp-for="Recipe.Title" class="form-control" autofocus placeholder="Title" />
+        <span asp-validation-for="Recipe.Title" class="text-danger"></span>
+    </div>
+    <div class="form-group col-2">
+        <select asp-for="SelectedCategory" asp-items="Model.Categories" class="form-control">
+            <option>Select Category</option>
+        </select>
+        <span asp-validation-for="Recipe.Category" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-4">
+        <input asp-for="Recipe.Yield" class="form-control" placeholder="Yield" />
+        <span asp-validation-for="Recipe.Yield" class="text-danger"></span>
+    </div>
+    <div class="form-group col">
+        <input asp-for="Recipe.Keywords" class="form-control" placeholder="Keywords" />
+        <span asp-validation-for="Recipe.Keywords" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">     
+    <div class="form-group col">
+        <textarea asp-for="Recipe.Description" class="form-control" rows="2" placeholder="Enter Description"></textarea>
+        <span asp-validation-for="Recipe.Description" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">             
+    <div class="form-group col">
+        <textarea asp-for="Recipe.Ingredients" class="form-control" rows="4" placeholder="Enter a list of ingredients"></textarea>
+        <span asp-validation-for="Recipe.Ingredients" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <textarea asp-for="Recipe.Preparation" class="form-control" rows="2" placeholder="Enter any preparation steps"></textarea>
+        <span asp-validation-for="Recipe.Preparation" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-4">
+        <input asp-for="Recipe.PrepTime" class="form-control" placeholder="Prep Time" />
+        <span asp-validation-for="Recipe.PrepTime" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <textarea asp-for="Recipe.Instructions" class="form-control" rows="5" placeholder="Enter the cooking steps"></textarea>
+        <span asp-validation-for="Recipe.Instructions" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-4">
+        <input asp-for="Recipe.CookTime" class="form-control" placeholder="Cook Time" />
+        <span asp-validation-for="Recipe.CookTime" class="text-danger"></span>
+    </div>
+</div>

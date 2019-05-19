@@ -68,5 +68,42 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             var recipes = JsonConvert.DeserializeObject<IEnumerable<RecipeViewModel>>(responseString);
             return recipes;
         }
+
+        /// <summary>
+        /// Updates the specified <paramref name="recipe" />
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <returns></returns>
+        public async Task UpdateAsync(RecipeViewModel recipe)
+        {
+            try
+            {
+                if (null == recipe)
+                {
+                    throw new ArgumentNullException(nameof(recipe));
+                }
+                _logger.LogDebug("Updating a recipe with id {0}", recipe.Id);
+                var response = await _httpClient.PutAsync(_recipeUri,
+                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));   
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError(exc, "Failed to update the recipe");
+                throw exc;
+            }
+        }
+
+        /// <summary>
+        /// Gets a recipe by <paramref name="id" />.
+        /// </summary>
+        /// <returns><see cref="RecipeViewModel" /></returns>
+        public async Task<RecipeViewModel> GetRecipeAsync(string id)
+        {
+            _logger.LogDebug("Getting recipe with id {0}", id);
+            var responseString = await _httpClient.GetStringAsync(_recipeUri);
+
+            var recipe = JsonConvert.DeserializeObject<RecipeViewModel>(responseString);
+            return recipe;
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [Required]
         public string Title { get; set; }
         
-        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -28,10 +27,13 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         
         public string Yield { get; set; }
         
+        [Required]
         public List<string> Ingredients { get; set; }
 
         public string Preparation { get; set; }
 
         public CategoryViewModel Category { get; set; }
+
+        public bool IsSecret { get; set; }
     }
 }

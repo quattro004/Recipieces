@@ -1,15 +1,15 @@
-﻿@page
-@model RecipeUIClassLib.Areas.Recipes.Pages.CreateModel
+﻿@page "{id:length(24)}"
+@model RecipeUIClassLib.Areas.Recipes.Pages.EditModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<form asp-action="Create" asp-antiforgery="true">
+<form asp-action="Edit" asp-antiforgery="true">
      @{await Html.RenderPartialAsync("_Recipe", Model);}
     <div class="form-row">
         <div class="form-group col">
-            <button type="submit" class="btn btn-primary">Create Recipe</button>
+            <button type="submit" class="btn btn-primary">Update Recipe</button>
             <a asp-page="Index">Back to List</a>
         </div>
     </div>

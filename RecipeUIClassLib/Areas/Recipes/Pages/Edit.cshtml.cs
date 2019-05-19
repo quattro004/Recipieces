@@ -13,23 +13,26 @@ using RecipeUIClassLib.Areas.Recipes.Services;
 namespace RecipeUIClassLib.Areas.Recipes.Pages
 {
     [Authorize]
-    public class CreateModel : RecipeModel
+    public class EditModel : RecipeModel
     {
-        public CreateModel(IRecipeService recipeService, ICategoryService categoryService, ILogger<RecipeService> logger) 
+        public EditModel(IRecipeService recipeService, ICategoryService categoryService, ILogger<RecipeService> logger) 
             : base(recipeService, categoryService, logger)
         {
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string id)
         {
+            _logger.LogDebug("Getting a recipe with id {0}", id);
+            Recipe = await _recipeService.GetRecipeAsync(id);
+
             await BuildCategories();
             
             return Page();
         }
-        
+
         public async Task<IActionResult> OnPostAsync()
         {
-            _logger.LogDebug("Posting a recipe to the API");
+            _logger.LogDebug("Putting a recipe to the API");
             _logger.LogDebug("Cat is {0}", SelectedCategory);
             
             await BuildCategories();
@@ -44,7 +47,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             }
 
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
-            await _recipeService.CreateAsync(Recipe);
+            await _recipeService.UpdateAsync(Recipe);
 
             return RedirectToPage("Index");
         }
