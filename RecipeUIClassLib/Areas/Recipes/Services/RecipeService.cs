@@ -100,7 +100,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         public async Task<RecipeViewModel> GetRecipeAsync(string id)
         {
             _logger.LogDebug("Getting recipe with id {0}", id);
-            var responseString = await _httpClient.GetStringAsync(_recipeUri);
+            var responseString = await _httpClient.GetStringAsync($"{_recipeUri}/{id}");
 
             var recipe = JsonConvert.DeserializeObject<RecipeViewModel>(responseString);
             return recipe;
