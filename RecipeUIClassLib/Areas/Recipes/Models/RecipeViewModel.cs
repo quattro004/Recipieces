@@ -16,7 +16,10 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         
         public string Description { get; set; }
 
-        [Required]
+        /// <summary>
+        /// List of instructions on how to execute the recipe. Required field.
+        /// </summary>
+        /// <value></value>
         public List<string> Instructions { get; set; }
 
         public TimeSpan PrepTime { get; set; }

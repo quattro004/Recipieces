@@ -30,7 +30,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPutAsync()
         {
             _logger.LogDebug("Putting a recipe to the API");
             _logger.LogDebug("Cat is {0}", SelectedCategory);
@@ -47,6 +47,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             }
 
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
+            BuildInstructions();
             await _recipeService.UpdateAsync(Recipe);
 
             return RedirectToPage("Index");

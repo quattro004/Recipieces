@@ -27,6 +27,9 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [BindProperty]
         public string SelectedCategory { get; set; }
 
+        [BindProperty]
+        public string Instructions { get; set; }
+
         public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -43,6 +46,17 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
                 _logger.LogDebug("Received {0} categories from the service.", _categories.Count());
             }
             Categories = new SelectList(_categories, "Id", "Name");
+        }
+
+        protected void BuildInstructions()
+        {
+            // TODO: need to make required field
+            //
+            // The instructions end up as one string with new lines. Create a list from it.
+            _logger.LogDebug("Building instructions: {0}", Instructions);
+            var instructionList = Instructions.Split(new string[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            // Remove existing and add from current list
+            Recipe.Instructions = new List<string>(instructionList);
         }
     }
 }
