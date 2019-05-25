@@ -41,7 +41,7 @@ namespace RecipeApi.Models
         public List<string> Ingredients { get; set; }
 
         [BsonElement("Preparation")]
-        public string Preparation { get; set; }
+        public List<string> Preparation { get; set; }
 
         [BsonElement("Category")]
         public Category Category { get; set; }

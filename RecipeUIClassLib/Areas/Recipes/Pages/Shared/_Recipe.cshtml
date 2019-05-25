@@ -14,33 +14,33 @@
         </select>
         <span asp-validation-for="Recipe.Category" class="text-danger"></span>
     </div>
-</div>
-<div class="form-row">
-    <div class="form-group col-4">
+    <div class="form-group col-2">
         <input asp-for="Recipe.Yield" class="form-control" placeholder="Yield" />
         <span asp-validation-for="Recipe.Yield" class="text-danger"></span>
     </div>
+</div>
+<div class="form-row">
     <div class="form-group col">
-        <input asp-for="Recipe.Keywords" class="form-control" placeholder="Keywords" />
-        <span asp-validation-for="Recipe.Keywords" class="text-danger"></span>
+        <textarea asp-for="Keywords" class="form-control" rows="2" placeholder="Keywords"></textarea>
+        <span asp-validation-for="Keywords" class="text-danger"></span>
     </div>
 </div>
 <div class="form-row">     
     <div class="form-group col">
-        <textarea asp-for="Recipe.Description" class="form-control" rows="2" placeholder="Enter Description"></textarea>
+        <input asp-for="Recipe.Description" class="form-control" placeholder="Enter Description" />
         <span asp-validation-for="Recipe.Description" class="text-danger"></span>
     </div>
 </div>
 <div class="form-row">             
     <div class="form-group col">
-        <textarea asp-for="Recipe.Ingredients" class="form-control" rows="4" placeholder="Enter a list of ingredients"></textarea>
-        <span asp-validation-for="Recipe.Ingredients" class="text-danger"></span>
+        <textarea asp-for="Ingredients" class="form-control" rows="4" placeholder="Enter a list of ingredients"></textarea>
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
     </div>
 </div>
 <div class="form-row">
     <div class="form-group col">
-        <textarea asp-for="Recipe.Preparation" class="form-control" rows="2" placeholder="Enter any preparation steps"></textarea>
-        <span asp-validation-for="Recipe.Preparation" class="text-danger"></span>
+        <textarea asp-for="Preparation" class="form-control" rows="2" placeholder="Enter any preparation steps"></textarea>
+        <span asp-validation-for="Preparation" class="text-danger"></span>
     </div>
 </div>
 <div class="form-row">
@@ -51,7 +51,7 @@
 </div>
 <div class="form-row">
     <div class="form-group col">
-        <textarea asp-for="Instructions" class="form-control" rows="5" placeholder="Instructions (separate each instruction by pressing Enter)"></textarea>
+        <textarea asp-for="Instructions" class="form-control" rows="5" placeholder="Enter cooking instructions"></textarea>
         <span asp-validation-for="Instructions" class="text-danger"></span>
     </div>
 </div>

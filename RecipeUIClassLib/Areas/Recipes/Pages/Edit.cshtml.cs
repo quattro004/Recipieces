@@ -36,18 +36,15 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             _logger.LogDebug("Cat is {0}", SelectedCategory);
             
             await BuildCategories();
-            
-            if (null == SelectedCategory)
-            {
-                ModelState.AddModelError("SelectedCategory", "Please select a category");
-            }
+            BuildLists();
+            ValidateRecipe();
+                        
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
-            BuildInstructions();
             await _recipeService.UpdateAsync(Recipe);
 
             return RedirectToPage("Index");

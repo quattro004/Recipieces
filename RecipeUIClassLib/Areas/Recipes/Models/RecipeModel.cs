@@ -30,6 +30,15 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [BindProperty]
         public string Instructions { get; set; }
 
+        [BindProperty]
+        public string Preparation { get; set; }
+
+        [BindProperty]
+        public string Ingredients { get; set; }
+
+        [BindProperty]
+        public string Keywords { get; set; }
+
         public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -48,15 +57,52 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             Categories = new SelectList(_categories, "Id", "Name");
         }
 
-        protected void BuildInstructions()
+        /// <summary>
+        /// Builds up the Instructions, Ingredients, Keywords and Preparation (if present) lists from the new line delimited
+        /// text areas in the view.
+        /// </summary>
+        protected void BuildLists()
         {
-            // TODO: need to make required field
             //
-            // The instructions end up as one string with new lines. Create a list from it.
+            // The instructions, ingredients, keywords and preparation end up as one string with new lines in the view.
+            // Create a list from it.
             _logger.LogDebug("Building instructions: {0}", Instructions);
-            var instructionList = Instructions.Split(new string[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
-            // Remove existing and add from current list
-            Recipe.Instructions = new List<string>(instructionList);
+            Recipe.Instructions = BuildList(Instructions);
+
+            _logger.LogDebug("Building ingredients: {0}", Ingredients);
+            Recipe.Ingredients = BuildList(Ingredients);
+            
+            _logger.LogDebug("Building preparation: {0}", Preparation);
+            Recipe.Preparation = BuildList(Preparation);
+
+            _logger.LogDebug("Building keywords: {0}", Keywords);
+            Recipe.Keywords= BuildList(Keywords);
+        }
+
+        private List<string> BuildList(string delimitedString)
+        {
+            if (!string.IsNullOrWhiteSpace(delimitedString))
+            {
+                return new List<string>(delimitedString.Split(new string[] {"\r\n"}, 
+                    StringSplitOptions.RemoveEmptyEntries));
+            }
+            return new List<string>();
+        }
+
+        protected void ValidateRecipe()
+        {
+            if (null == SelectedCategory)
+            {
+                ModelState.AddModelError("SelectedCategory", "Please select a category");
+            }
+            if (null == Recipe.Instructions || !Recipe.Instructions.Any())
+            {
+                ModelState.AddModelError("Instructions", "Please add at least one cooking instruction");                
+            }
+            if (null == Recipe.Ingredients || !Recipe.Ingredients.Any())
+            {
+                ModelState.AddModelError("Ingredients", "Please add at least one ingredient");                
+            }
         }
     }
 }

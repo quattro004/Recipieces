@@ -44,7 +44,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             }
 
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
-            BuildInstructions();
+            BuildLists();
             await _recipeService.CreateAsync(Recipe);
 
             return RedirectToPage("Index");

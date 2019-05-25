@@ -33,7 +33,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [Required]
         public List<string> Ingredients { get; set; }
 
-        public string Preparation { get; set; }
+        public List<string> Preparation { get; set; }
 
         public CategoryViewModel Category { get; set; }
 
