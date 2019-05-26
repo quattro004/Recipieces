@@ -30,7 +30,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         
         public string Yield { get; set; }
         
-        [Required]
         public List<string> Ingredients { get; set; }
 
         public List<string> Preparation { get; set; }

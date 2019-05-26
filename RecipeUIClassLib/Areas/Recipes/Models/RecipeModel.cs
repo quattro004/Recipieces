@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Areas.Recipes.Services;
+using RecipeUIClassLib.Extensions;
 
 namespace RecipeUIClassLib.Areas.Recipes.Models
 {
@@ -28,9 +29,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         public string SelectedCategory { get; set; }
 
         [BindProperty]
-        public string Instructions { get; set; }
-
-        [BindProperty]
         public string Preparation { get; set; }
 
         [BindProperty]
@@ -38,6 +36,27 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
 
         [BindProperty]
         public string Keywords { get; set; }
+
+        [BindProperty]
+        public string Instructions { get; set; }
+
+        [BindProperty]
+        public int CookTimeHours { get; set; }
+
+        [BindProperty]
+        public int CookTimeMinutes { get; set; }
+
+        [BindProperty]
+        public int CookTimeSeconds { get; set; }
+
+        [BindProperty]
+        public int PrepTimeHours { get; set; }
+
+        [BindProperty]
+        public int PrepTimeMinutes { get; set; }
+
+        [BindProperty]
+        public int PrepTimeSeconds { get; set; }
 
         public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
         {
@@ -57,38 +76,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             Categories = new SelectList(_categories, "Id", "Name");
         }
 
-        /// <summary>
-        /// Builds up the Instructions, Ingredients, Keywords and Preparation (if present) lists from the new line delimited
-        /// text areas in the view.
-        /// </summary>
-        protected void BuildLists()
-        {
-            //
-            // The instructions, ingredients, keywords and preparation end up as one string with new lines in the view.
-            // Create a list from it.
-            _logger.LogDebug("Building instructions: {0}", Instructions);
-            Recipe.Instructions = BuildList(Instructions);
-
-            _logger.LogDebug("Building ingredients: {0}", Ingredients);
-            Recipe.Ingredients = BuildList(Ingredients);
-            
-            _logger.LogDebug("Building preparation: {0}", Preparation);
-            Recipe.Preparation = BuildList(Preparation);
-
-            _logger.LogDebug("Building keywords: {0}", Keywords);
-            Recipe.Keywords= BuildList(Keywords);
-        }
-
-        private List<string> BuildList(string delimitedString)
-        {
-            if (!string.IsNullOrWhiteSpace(delimitedString))
-            {
-                return new List<string>(delimitedString.Split(new string[] {"\r\n"}, 
-                    StringSplitOptions.RemoveEmptyEntries));
-            }
-            return new List<string>();
-        }
-
         protected void ValidateRecipe()
         {
             if (null == SelectedCategory)
@@ -103,6 +90,22 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             {
                 ModelState.AddModelError("Ingredients", "Please add at least one ingredient");                
             }
+        }
+
+        public virtual async Task<IActionResult> OnPostAsync()
+        {
+            _logger.LogDebug("Posting a recipe to the API");
+            _logger.LogDebug("Cat is {0}", SelectedCategory);
+            
+            await BuildCategories();
+            Recipe.Instructions = Instructions.FromDelimited();
+            Recipe.Ingredients = Ingredients.FromDelimited();
+            Recipe.Preparation = Preparation.FromDelimited();
+            Recipe.Keywords = Keywords.FromDelimited();
+            Recipe.CookTime = new TimeSpan(CookTimeHours, CookTimeMinutes, CookTimeSeconds);
+            Recipe.PrepTime = new TimeSpan(PrepTimeHours, PrepTimeMinutes, PrepTimeSeconds);
+            ValidateRecipe();
+            return Page();
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using RecipeUIClassLib.Areas.Recipes.Services;
+using RecipeUIClassLib.Extensions;
 
 namespace RecipeUIClassLib.Areas.Recipes.Pages
 {
@@ -23,30 +24,19 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             await BuildCategories();
-            
             return Page();
         }
         
-        public async Task<IActionResult> OnPostAsync()
+        public override async Task<IActionResult> OnPostAsync()
         {
-            _logger.LogDebug("Posting a recipe to the API");
-            _logger.LogDebug("Cat is {0}", SelectedCategory);
-            
-            await BuildCategories();
-            
-            if (null == SelectedCategory)
-            {
-                ModelState.AddModelError("SelectedCategory", "Please select a category");
-            }
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
+            var page = await base.OnPostAsync();
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
-            BuildLists();
             await _recipeService.CreateAsync(Recipe);
 
+            if (!ModelState.IsValid)
+            {
+                return page;
+            }
             return RedirectToPage("Index");
         }
     }

@@ -3,18 +3,18 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <div asp-validation-summary="All" class="text-danger"></div>
-<div class="form-row">     
-    <div class="form-group col">
+<div class="form-row">
+    <div class="form-group col-6">
         <input asp-for="Recipe.Title" class="form-control" autofocus placeholder="Title" />
         <span asp-validation-for="Recipe.Title" class="text-danger"></span>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-3">
         <select asp-for="SelectedCategory" asp-items="Model.Categories" class="form-control">
             <option>Select Category</option>
         </select>
         <span asp-validation-for="Recipe.Category" class="text-danger"></span>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-3">
         <input asp-for="Recipe.Yield" class="form-control" placeholder="Yield" />
         <span asp-validation-for="Recipe.Yield" class="text-danger"></span>
     </div>
@@ -44,8 +44,21 @@
     </div>
 </div>
 <div class="form-row">
-    <div class="form-group col-4">
-        <input asp-for="Recipe.PrepTime" class="form-control" placeholder="Prep Time" />
+    <p class="form-group col-1">Hours</p>
+    <p class="form-group col-1">Minutes</p>
+    <p class="form-group col-1">Seconds</p>
+</div>
+<div class="form-row">
+    <div class="form-group col-1">
+        <input asp-for="PrepTimeHours" type="number" value="00" class="form-control" placeholder="00"/>
+    </div>
+    :
+    <div class="form-group col-1">
+        <input asp-for="PrepTimeMinutes" type="number" value="15" class="form-control" placeholder="00"/>
+    </div>
+    :
+    <div class="form-group col-1">
+        <input asp-for="PrepTimeSeconds" type="number" value="00" class="form-control" placeholder="00" />
         <span asp-validation-for="Recipe.PrepTime" class="text-danger"></span>
     </div>
 </div>
@@ -56,8 +69,19 @@
     </div>
 </div>
 <div class="form-row">
-    <div class="form-group col-4">
-        <input asp-for="Recipe.CookTime" class="form-control" placeholder="Cook Time" />
-        <span asp-validation-for="Recipe.CookTime" class="text-danger"></span>
+    <label for="cookTimeGroup" class="col-sm-2 col-form-label col-form-label-sm">Cooking time</label>
+    <div id="cookTimeGroup" class="form-group input-group input-group-sm col-6">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="cooktimeHours">Hours</label>
+        </div>
+        <input id="cooktimeHours" asp-for="CookTimeHours" type="number" class="form-control" placeholder="00"/>
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="cooktimeMinutes">Minutes</label>
+        </div>
+        <input id="cooktimeMinutes" asp-for="CookTimeMinutes" type="number" class="form-control" placeholder="00"/>
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="cooktimeSeconds">Seconds</label>
+        </div>
+        <input id="cooktimeSeconds" asp-for="CookTimeSeconds" type="number" class="form-control" placeholder="00"/>
     </div>
 </div>
