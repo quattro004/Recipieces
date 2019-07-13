@@ -41,22 +41,10 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         public string Instructions { get; set; }
 
         [BindProperty]
-        public int CookTimeHours { get; set; }
+        public string CookTime { get; set; }
 
         [BindProperty]
-        public int CookTimeMinutes { get; set; }
-
-        [BindProperty]
-        public int CookTimeSeconds { get; set; }
-
-        [BindProperty]
-        public int PrepTimeHours { get; set; }
-
-        [BindProperty]
-        public int PrepTimeMinutes { get; set; }
-
-        [BindProperty]
-        public int PrepTimeSeconds { get; set; }
+        public string PrepTime { get; set; }
 
         public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
         {
@@ -90,22 +78,26 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             {
                 ModelState.AddModelError("Ingredients", "Please add at least one ingredient");                
             }
+            if (Recipe.CookTime.Equals(default(TimeSpan)))
+            {
+                ModelState.AddModelError("CookTime", "Please add the cooking time");                
+            }
         }
 
-        public virtual async Task<IActionResult> OnPostAsync()
+        protected void BuildRecipe()
         {
-            _logger.LogDebug("Posting a recipe to the API");
-            _logger.LogDebug("Cat is {0}", SelectedCategory);
-            
-            await BuildCategories();
             Recipe.Instructions = Instructions.FromDelimited();
             Recipe.Ingredients = Ingredients.FromDelimited();
             Recipe.Preparation = Preparation.FromDelimited();
             Recipe.Keywords = Keywords.FromDelimited();
-            Recipe.CookTime = new TimeSpan(CookTimeHours, CookTimeMinutes, CookTimeSeconds);
-            Recipe.PrepTime = new TimeSpan(PrepTimeHours, PrepTimeMinutes, PrepTimeSeconds);
-            ValidateRecipe();
-            return Page();
+            if (TimeSpan.TryParseExact(CookTime, "g", null, out var cookTime))
+            {
+               Recipe.CookTime = cookTime;
+            }
+            if (TimeSpan.TryParseExact(PrepTime, "g", null, out var prepTime))
+            {
+               Recipe.PrepTime = prepTime;
+            }   
         }
     }
 }

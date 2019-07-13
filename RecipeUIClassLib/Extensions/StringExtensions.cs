@@ -35,5 +35,10 @@ namespace RecipeUIClassLib.Extensions
             }
             return new List<string>();
         }
+
+        public static bool IsNullOrWhiteSpace(this string input)
+        {
+            return string.IsNullOrWhiteSpace(input);
+        }
     }
 }

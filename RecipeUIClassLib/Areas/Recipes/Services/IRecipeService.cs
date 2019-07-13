@@ -6,9 +6,10 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
 {
     public interface IRecipeService
     {
-         Task<IEnumerable<RecipeViewModel>> GetRecipesAsync();
+         Task<IEnumerable<RecipeViewModel>> ListAsync();
          Task CreateAsync(RecipeViewModel recipe);
          Task UpdateAsync(RecipeViewModel recipe);
-         Task<RecipeViewModel> GetRecipeAsync(string id);
+         Task<RecipeViewModel> GetAsync(string id);
+         Task DeleteAsync(string id);
     }
 }

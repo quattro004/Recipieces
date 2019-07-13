@@ -27,15 +27,17 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             return Page();
         }
         
-        public override async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var page = await base.OnPostAsync();
+            _logger.LogDebug("Creating a recipe");
+            BuildRecipe();
+            await BuildCategories();
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
             await _recipeService.CreateAsync(Recipe);
 
             if (!ModelState.IsValid)
             {
-                return page;
+                return Page();
             }
             return RedirectToPage("Index");
         }

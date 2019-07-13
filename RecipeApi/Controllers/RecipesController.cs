@@ -122,6 +122,12 @@ namespace RecipeApi.Controllers
         public async Task<IActionResult> Update(string id, Recipe recipeIn)
         {
             _logger.LogDebug("Updating a recipe with id {0}", id);
+            if (id != recipeIn.Id)
+            {
+                _logger.LogError("The recipe's id {0} doesn't match the route's id {1}", recipeIn.Id,
+                    id);
+                return NotFound();
+            }
             var updatedCount = await _recipeService.Update(id, recipeIn);
 
             if (updatedCount == 0)

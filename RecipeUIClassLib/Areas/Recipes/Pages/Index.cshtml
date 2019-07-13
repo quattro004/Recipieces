@@ -33,6 +33,7 @@ else
                         <div class="btn-group">
                             <a asp-page="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">View</a>
                             <a asp-page="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a asp-page="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Remove</a>
                         </div>
                         <small class="text-muted">@recipe.Yield</small>
                     </div>

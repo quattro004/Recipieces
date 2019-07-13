@@ -24,7 +24,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Recipes = await _recipeService.GetRecipesAsync();
+            Recipes = await _recipeService.ListAsync();
 
             return Page();
         }

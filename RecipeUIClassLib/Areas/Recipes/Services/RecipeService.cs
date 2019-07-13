@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
+using RecipeUIClassLib.Extensions;
 
 namespace RecipeUIClassLib.Areas.Recipes.Services
 {
@@ -44,9 +45,10 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         {
             try
             {
-                _logger.LogDebug("Creating a recipe");
+                _logger.LogDebug("Posting a recipe to the API");
                 var response = await _httpClient.PostAsync(_recipeUri,
-                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));   
+                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
             }
             catch (Exception exc)
             {
@@ -59,10 +61,14 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         /// Gets a list of all the recipes.
         /// </summary>
         /// <returns>List of <see cref="RecipeViewModel" />.</returns>
-        public async Task<IEnumerable<RecipeViewModel>> GetRecipesAsync()
+        public async Task<IEnumerable<RecipeViewModel>> ListAsync()
         {
             _logger.LogDebug("Getting all recipes");
             var responseString = await _httpClient.GetStringAsync(_recipeUri);
+            if (responseString.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
             _logger.LogDebug("Got recipes from the API, woot");
 
             var recipes = JsonConvert.DeserializeObject<IEnumerable<RecipeViewModel>>(responseString);
@@ -72,8 +78,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         /// <summary>
         /// Updates the specified <paramref name="recipe" />
         /// </summary>
-        /// <param name="recipe"></param>
-        /// <returns></returns>
+        /// <param name="recipe">Recipe data being updated, all properties are replaced.</param>
         public async Task UpdateAsync(RecipeViewModel recipe)
         {
             try
@@ -82,9 +87,11 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
                 {
                     throw new ArgumentNullException(nameof(recipe));
                 }
-                _logger.LogDebug("Updating a recipe with id {0}", recipe.Id);
-                var response = await _httpClient.PutAsync(_recipeUri,
-                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));   
+                var recipeData = JsonConvert.SerializeObject(recipe);
+                _logger.LogDebug(recipeData);
+                var response = await _httpClient.PutAsync($"{_recipeUri}/{recipe.Id}",
+                    new StringContent(recipeData, Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
             }
             catch (Exception exc)
             {
@@ -92,18 +99,41 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
                 throw exc;
             }
         }
-
+        
         /// <summary>
         /// Gets a recipe by <paramref name="id" />.
         /// </summary>
         /// <returns><see cref="RecipeViewModel" /></returns>
-        public async Task<RecipeViewModel> GetRecipeAsync(string id)
+        public async Task<RecipeViewModel> GetAsync(string id)
         {
-            _logger.LogDebug("Getting recipe with id {0}", id);
+            _logger.LogDebug("Getting recipe from the API with id {0}", id);
             var responseString = await _httpClient.GetStringAsync($"{_recipeUri}/{id}");
-
+            _logger.LogDebug(responseString);
+            if (responseString.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
             var recipe = JsonConvert.DeserializeObject<RecipeViewModel>(responseString);
             return recipe;
+        }
+
+        /// <summary>
+        /// Deletes a recipe by <paramref name="id" />.
+        /// </summary>
+        /// <param name="id">Recipe identifier.</param>        
+        public async Task DeleteAsync(string id)
+        {
+            try
+            {
+                _logger.LogDebug("Deleting recipe from the API with id {0}", id);
+                var response = await _httpClient.DeleteAsync($"{_recipeUri}/{id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError(exc, "Failed to delete the recipe");
+                throw exc;
+            }
         }
     }
 }
