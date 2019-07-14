@@ -49,11 +49,11 @@
                         <h6 class="card-subtitle mb-2 text-muted">Cooking Instructions
                             @if (Model.Recipe.CookTime.Hours > 0)
                             {
-                                <small class="text-muted">(bake for @Model.Recipe.CookTime.Hours hours and Model.Recipe.CookTime.Minutes minutes)</small>
+                                <small class="text-muted">(cook time @Model.Recipe.CookTime.Hours hours and Model.Recipe.CookTime.Minutes minutes)</small>
                             } 
                             else
                             {
-                                <small class="text-muted">(bake for @Model.Recipe.CookTime.Minutes minutes)</small>
+                                <small class="text-muted">(cook time @Model.Recipe.CookTime.Minutes minutes)</small>
                             }
                         </h6>
                         <ul>
