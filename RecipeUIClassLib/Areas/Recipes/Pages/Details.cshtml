@@ -7,27 +7,68 @@
 
 <div class="card-deck">
     <div class="card mb-4 shadow-sm text-white bg-dark">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: No Picture">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#55595c"/>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em">No Picture</text>
-            </svg>
-            <div class="card-body">
-                <h3 class="card-title">@Model.Recipe.Title</h3>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    <small class="text-muted">@Model.Recipe.Yield</small>
-                </h6>
-                <p class="card-text">@Model.Recipe.Description</p>
-                <p class="card-text">
-                    <ul>
-                    @foreach (var instruction in Model.Recipe.Instructions)
-                    {
-                        <li>@instruction</li>
-                    }
-                    </ul>
-                </p>
+        <div class="row no-gutters">
+            <div class="col-md-5">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Recipe.Title</h3>
+                    <p class="card-subtitle">@Model.Recipe.Description</p>
+                    <h6 class="card-text mb-2 text-muted">
+                        <small class="text-muted"><i>@Model.Recipe.Yield</i></small>
+                    </h6>
+                    <p class="card-text">
+                        <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
+                        <ul>
+                        @foreach (var ingredient in Model.Recipe.Ingredients)
+                        {
+                            <li>@ingredient</li>
+                        }
+                        </ul>
+                    </p>
+                    <p class="card-text">
+                        <h6 class="card-subtitle mb-2 text-muted">Preparation Steps
+                        @if (Model.Recipe.PrepTime.Minutes > 0 || Model.Recipe.PrepTime.Hours > 0)
+                        {
+                            @if (Model.Recipe.PrepTime.Hours > 0)
+                            {
+                                <small class="text-muted"> (takes about @Model.Recipe.PrepTime.Hours hours and @Model.Recipe.PrepTime.Minutes minutes)</small>
+                            }
+                            else
+                            {
+                                <small class="text-muted">(takes about @Model.Recipe.PrepTime.Minutes minutes)</small>
+                            }
+                        }
+                        </h6>
+                        <ul>
+                        @foreach (var step in Model.Recipe.Preparation)
+                        {
+                            <li>@step</li>
+                        }
+                        </ul>
+                    </p>
+                    <p class="card-text">
+                        <h6 class="card-subtitle mb-2 text-muted">Cooking Instructions
+                            @if (Model.Recipe.CookTime.Hours > 0)
+                            {
+                                <small class="text-muted">(bake for @Model.Recipe.CookTime.Hours hours and Model.Recipe.CookTime.Minutes minutes)</small>
+                            } 
+                            else
+                            {
+                                <small class="text-muted">(bake for @Model.Recipe.CookTime.Minutes minutes)</small>
+                            }
+                        </h6>
+                        <ul>
+                        @foreach (var instruction in Model.Recipe.Instructions)
+                        {
+                            <li>@instruction</li>
+                        }
+                        </ul>
+                    </p>
+                </div>
             </div>
+            <div class="col-md-7">
+                <img src="~/images/cookie.jpeg" class="card-img" alt="@Model.Recipe.Title" />
+            </div>
+        </div>
         <div class="btn-group">
             <a asp-page="Edit" asp-route-id="@Model.Recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
             <a asp-page="Index" class="btn btn-sm btn-outline-secondary">Back To Recipes</a>

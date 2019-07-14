@@ -16,29 +16,36 @@
 }
 else
 {
-    <div class="card-deck">
-        @foreach (var recipe in Model.Recipes)
-        {
-            <div class="card mb-4 shadow-sm text-white bg-dark">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: No Picture">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#55595c"/>
-                    <text x="30%" y="50%" fill="#eceeef" dy=".3em">No Picture</text>
-                </svg>
-                <div class="card-body">
-                    <h5 class="card-title">@recipe.Title</h5>
-                    <p class="card-text">@recipe.Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a asp-page="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">View</a>
-                            <a asp-page="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            <a asp-page="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Remove</a>
+    <div class="row">
+        <div class="card-deck">
+            @foreach (var recipe in Model.Recipes)
+            {
+                <div class="card shadow-sm text-white bg-dark mb-3" style="max-width: 18rem;">
+                    <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: No Picture">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"/>
+                        <text x="30%" y="50%" fill="#eceeef" dy=".3em">No Picture</text>
+                    </svg> -->
+                    <img src="images/cookie.jpeg" class="card-img-top" alt="@recipe.Title" /> 
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.Title</h5>
+                        <small class="card-text">@recipe.Description</small>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">@recipe.Yield</small>
                         </div>
-                        <small class="text-muted">@recipe.Yield</small>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <div class="btn-group">
+                                <a asp-page="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                                <a asp-page="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a asp-page="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-outline-secondary">Remove</a>
+                            </div>
+                        </small>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>        
     </div>        
 }
