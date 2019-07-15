@@ -15,6 +15,35 @@
                     <h6 class="card-text mb-2 text-muted">
                         <small class="text-muted"><i>@Model.Recipe.Yield</i></small>
                     </h6>
+                    <h6 class="card-text mb-2 text-muted">
+                        @if (Model.Recipe.CookTime.Hours > 0)
+                        {
+                            <span class="badge badge-secondary">
+                                Cook Time: @Model.Recipe.CookTime.Hours hours and Model.Recipe.CookTime.Minutes minutes
+                            </span>
+                        } 
+                        else
+                        {
+                            <span class="badge badge-secondary">
+                                Cook Time: @Model.Recipe.CookTime.Minutes minutes
+                            </span>
+                        }
+                        @if (Model.Recipe.PrepTime.Minutes > 0 || Model.Recipe.PrepTime.Hours > 0)
+                        {
+                            @if (Model.Recipe.PrepTime.Hours > 0)
+                            {
+                                <span class="badge badge-secondary">
+                                    Preparation Time: @Model.Recipe.PrepTime.Hours hours and @Model.Recipe.PrepTime.Minutes minutes
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">
+                                    Preparation Time: @Model.Recipe.PrepTime.Minutes minutes
+                                </span>
+                            }
+                        }
+                    </h6>
                     <p class="card-text">
                         <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
                         <ul>
@@ -25,19 +54,7 @@
                         </ul>
                     </p>
                     <p class="card-text">
-                        <h6 class="card-subtitle mb-2 text-muted">Preparation Steps
-                        @if (Model.Recipe.PrepTime.Minutes > 0 || Model.Recipe.PrepTime.Hours > 0)
-                        {
-                            @if (Model.Recipe.PrepTime.Hours > 0)
-                            {
-                                <small class="text-muted"> (takes about @Model.Recipe.PrepTime.Hours hours and @Model.Recipe.PrepTime.Minutes minutes)</small>
-                            }
-                            else
-                            {
-                                <small class="text-muted">(takes about @Model.Recipe.PrepTime.Minutes minutes)</small>
-                            }
-                        }
-                        </h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Preparation Steps</h6>
                         <ul>
                         @foreach (var step in Model.Recipe.Preparation)
                         {
@@ -46,16 +63,7 @@
                         </ul>
                     </p>
                     <p class="card-text">
-                        <h6 class="card-subtitle mb-2 text-muted">Cooking Instructions
-                            @if (Model.Recipe.CookTime.Hours > 0)
-                            {
-                                <small class="text-muted">(cook time @Model.Recipe.CookTime.Hours hours and Model.Recipe.CookTime.Minutes minutes)</small>
-                            } 
-                            else
-                            {
-                                <small class="text-muted">(cook time @Model.Recipe.CookTime.Minutes minutes)</small>
-                            }
-                        </h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Cooking Instructions</h6>
                         <ul>
                         @foreach (var instruction in Model.Recipe.Instructions)
                         {
