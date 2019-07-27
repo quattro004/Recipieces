@@ -37,10 +37,10 @@ namespace RecipeApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public IEnumerable<Category> List()
         {
             _logger.LogDebug("Getting all categories");
-            return _categoryService.Get();
+            return _categoryService.List();
         }
 
         /// <summary>

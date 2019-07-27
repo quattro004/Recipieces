@@ -58,7 +58,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             if (null == _categories)
             {
                 _logger.LogDebug("Getting categories");
-                _categories = await _categoryService.GetCategories();
+                _categories = await _categoryService.List();
                 _logger.LogDebug("Received {0} categories from the service.", _categories.Count());
             }
             Categories = new SelectList(_categories, "Id", "Name");

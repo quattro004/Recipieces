@@ -54,8 +54,9 @@ namespace RecipeApi.Services
         /// Gets a list of data objects
         /// </summary>
         /// <returns>List of data</returns>
-        public IEnumerable<T> Get()
+        public IEnumerable<T> List()
         {
+            _logger.LogDebug("DataService.List");
             return _data.Find(t => true).ToList();
         }
 
@@ -66,6 +67,7 @@ namespace RecipeApi.Services
         /// <returns></returns>
         public T Get(string id)
         {
+            _logger.LogDebug("DataService.Get, id: ", id);
             var dataObject = _data.Find<T>(d => d.Id == id).FirstOrDefault();
 
             return null == dataObject ? DataObject.NotCreated as T : dataObject;
@@ -79,6 +81,7 @@ namespace RecipeApi.Services
         /// <exception type="ArgumentNullException">Thrown when the <paramref name="dataObject" /> is null.</exception>
         public async Task<T> CreateAsync(T dataObject)
         {
+            _logger.LogDebug("DataService.CreateAsync");
             dataObject.ThrowIfNull(nameof(dataObject));
             dataObject.CreatedOn = dataObject.ModifiedOn = DateTime.Now;
             await _data.InsertOneAsync(dataObject);
@@ -93,6 +96,7 @@ namespace RecipeApi.Services
         /// <returns>1 if successful 0 otherwise.</returns>
         public async Task<long> Update(string id, T dataIn)
         {
+            _logger.LogDebug("DataService.ReplaceOneAsync, id: ", id);
             var result = await _data.ReplaceOneAsync(d => d.Id == id, dataIn);
             return result.ModifiedCount;
         }
@@ -104,6 +108,7 @@ namespace RecipeApi.Services
         /// <returns>1 if successful 0 otherwise.</returns>
         public async Task<long> Remove(T dataIn)
         {
+            _logger.LogDebug("DataService.Remove");
             return null == dataIn ? 0 : await Remove(dataIn.Id);
         }
 
@@ -114,6 +119,7 @@ namespace RecipeApi.Services
         /// <returns>1 if successful 0 otherwise.</returns>
         public async Task<long> Remove(string id)
         {
+            _logger.LogDebug("DataService.Remove, id: ", id);
             var result = await _data.DeleteOneAsync(d => d.Id == id);
             return result.DeletedCount;
         }

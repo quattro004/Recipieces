@@ -6,6 +6,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
 {
     public interface ICategoryService
     {
-         Task<IEnumerable<CategoryViewModel>> GetCategories();
+         Task<IEnumerable<CategoryViewModel>> List();
     }
 }

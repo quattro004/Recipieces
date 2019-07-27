@@ -35,7 +35,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         /// Gets a list of all the categories.
         /// </summary>
         /// <returns>List of <see cref="CategoryViewModel" />.</returns>
-        public async Task<IEnumerable<CategoryViewModel>> GetCategories()
+        public async Task<IEnumerable<CategoryViewModel>> List()
         {
             _logger.LogDebug("Getting all categories");
             var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");

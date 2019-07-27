@@ -37,10 +37,10 @@ namespace RecipeApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Recipe> Get()
+        public IEnumerable<Recipe> List()
         {
             _logger.LogDebug("Getting all recipes");
-            return _recipeService.Get();
+            return _recipeService.List();
         }
 
         /// <summary>
@@ -105,15 +105,46 @@ namespace RecipeApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="recipeIn"></param>
-        ///  /// <remarks>
+        /// <remarks>
         /// Sample request:
         ///
         ///     PUT /Recipe
         ///     {
-        ///        "name": "Cat2",
-        ///        "description": "This is an even awesomer recipe!"
+        ///         "title": "Pancakes",
+        ///         "description": "Just like yo mama made",
+        ///         "instructions": [
+        ///           "Combine dry together",
+        ///           "Beat egg in a bowl and add 1 cup milk and butter",
+        ///           "Add 1/4 cup more milk if needed"
+        ///         ],
+        ///         "prepTime": "00:06:00",
+        ///         "cookTime": "00:30:00",
+        ///         "keywords": [
+        ///           "Pancakes",
+        ///           "Mama's best"
+        ///         ],
+        ///         "yield": "Makes 10-12 4 inch pancakes",
+        ///         "ingredients": [
+        ///           "1 1/2 cup flour",
+        ///           "1 tbsp baking powder",
+        ///           "1/2 tbsp baking soda",
+        ///           "2 tbsp sugar",
+        ///           "3/4 tsp salt",
+        ///           "1 tsp vanilla",
+        ///           "1 1/ 4 cup milk",
+        ///           "1 egg",
+        ///           "2 tbsp melted butter"
+        ///         ],
+        ///         "preparation": [
+        ///           "Melt butter in a container"
+        ///         ],
+        ///         "category": {
+        ///           "name": "Breakfast",
+        ///           "description": null,
+        ///           "id": "5d2a5c76eb06ed0001ae0b7a"
+        ///         },
+        ///         "id": "5d2a5f7deb06ed0001ae0b7b"
         ///     }
-        ///
         /// </remarks>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
