@@ -32,8 +32,14 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             Ingredients = Recipe.Ingredients.ToDelimited();
             Keywords = Recipe.Keywords.ToDelimited();
             Preparation = Recipe.Preparation.ToDelimited();
-            PrepTime = $"{Recipe.PrepTime.Hours}:{Recipe.PrepTime.Minutes}";
-            CookTime = $"{Recipe.CookTime.Hours}:{Recipe.CookTime.Minutes}";
+
+            var prepTimeMinutes = Recipe.PrepTime.Minutes;
+            var prepMinutesDisplay = prepTimeMinutes < 10 ? $"0{prepTimeMinutes}" : prepTimeMinutes.ToString();
+            PrepTime = $"{Recipe.PrepTime.Hours}:{prepMinutesDisplay}";
+
+            var cookTimeMinutes = Recipe.CookTime.Minutes;
+            var cookMinutesDisplay = cookTimeMinutes < 10 ? $"0{cookTimeMinutes}" : cookTimeMinutes.ToString();
+            CookTime = $"{Recipe.CookTime.Hours}:{cookMinutesDisplay}";
             
             return Page();
         }

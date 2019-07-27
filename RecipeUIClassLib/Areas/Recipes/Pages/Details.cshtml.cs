@@ -24,8 +24,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
         {
             _logger.LogDebug("Getting recipe details with id {0}", id);
             Recipe = await _recipeService.GetAsync(id);
-
-            await BuildCategories();
             
             return Page();
         }
