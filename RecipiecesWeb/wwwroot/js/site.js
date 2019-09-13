@@ -10,7 +10,7 @@ $('#login button').click(popupLogin());
 Recipieces.auth = (function() {
     async function popupLogin() {
         let session = await auth.currentSession();
-        let popupUri = '~/src/recipieces-login-popup.html';
+        let popupUri = '/recipieces-login-popup.html';
         if (!session) {
             session = await auth.popupLogin({ popupUri });
         }
