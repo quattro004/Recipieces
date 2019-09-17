@@ -19,6 +19,8 @@ using RecipiecesWeb.Areas.Identity.Services;
 using RecipiecesWeb.Models;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
+using RecipiecesWeb.Extensions;
 
 namespace RecipiecesWeb
 {
@@ -108,13 +110,14 @@ namespace RecipiecesWeb
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 // app.UseHsts();
-            }
-            
+            }            
+            app.UseStatusCodePagesWithRedirects("~/404.html", (int)HttpStatusCode.NotFound);
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            // app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
