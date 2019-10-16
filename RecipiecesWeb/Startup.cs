@@ -20,7 +20,6 @@ using RecipiecesWeb.Models;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
-using RecipiecesWeb.Extensions;
 
 namespace RecipiecesWeb
 {
@@ -88,7 +87,6 @@ namespace RecipiecesWeb
             });
 
             services.AddSingleton<IEmailSender, EmailSender>();
-            // services.AddScoped<IAlertService, AlertService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<IRecipeService, RecipeService>();
@@ -109,7 +107,6 @@ namespace RecipiecesWeb
             {
                 app.UseExceptionHandler("/Home/Error");
             }            
-            app.UseStatusCodePagesWithRedirects("~/404.html", (int)HttpStatusCode.NotFound);
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
