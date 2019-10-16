@@ -3,8 +3,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:3000",
-      "sslPort": 3001
+      "applicationUrl": "http://localhost:3000"
     }
   },
   "profiles": {
@@ -18,7 +17,7 @@
     "RecipiecesWeb": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:3001;http://localhost:3000",
+      "applicationUrl": "http://localhost:3000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

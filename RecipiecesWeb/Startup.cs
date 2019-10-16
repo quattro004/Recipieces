@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipiecesWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipiecesWeb.Areas.Identity.Services;
 using RecipiecesWeb.Models;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using Microsoft.AspNetCore.HttpOverrides;
-using System.Net;
+using Microsoft.Extensions.Hosting;
 
 namespace RecipiecesWeb
 {
@@ -35,13 +28,6 @@ namespace RecipiecesWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -49,7 +35,7 @@ namespace RecipiecesWeb
             {
                 config.SignIn.RequireConfirmedEmail = true;
             })
-            .AddDefaultUI(UIFramework.Bootstrap4)
+            .AddDefaultUI()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -86,17 +72,19 @@ namespace RecipiecesWeb
                 options.SlidingExpiration = true;
             });
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            // services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<IRecipeService, RecipeService>();
             services.Configure<RecipeApiOptions>(Configuration);
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddRouting();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -113,13 +101,13 @@ namespace RecipiecesWeb
             });
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseAuthorization();
+ 
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

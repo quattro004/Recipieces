@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using System.Text.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using RecipeUIClassLib.Extensions;
 
@@ -47,7 +47,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             {
                 _logger.LogDebug("Posting a recipe to the API");
                 var response = await _httpClient.PostAsync(_recipeUri,
-                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));
+                    new StringContent(JsonSerializer.Serialize(recipe), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception exc)
@@ -71,7 +71,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             }
             _logger.LogDebug("Got recipes from the API, woot");
 
-            var recipes = JsonConvert.DeserializeObject<IEnumerable<RecipeViewModel>>(responseString);
+            var recipes = JsonSerializer.Deserialize<IEnumerable<RecipeViewModel>>(responseString);
             return recipes;
         }
 
@@ -87,7 +87,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
                 {
                     throw new ArgumentNullException(nameof(recipe));
                 }
-                var recipeData = JsonConvert.SerializeObject(recipe);
+                var recipeData = JsonSerializer.Serialize(recipe);
                 _logger.LogDebug(recipeData);
                 var response = await _httpClient.PutAsync($"{_recipeUri}/{recipe.Id}",
                     new StringContent(recipeData, Encoding.UTF8, "application/json"));
@@ -113,7 +113,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             {
                 return null;
             }
-            var recipe = JsonConvert.DeserializeObject<RecipeViewModel>(responseString);
+            var recipe = JsonSerializer.Deserialize<RecipeViewModel>(responseString);
             return recipe;
         }
 

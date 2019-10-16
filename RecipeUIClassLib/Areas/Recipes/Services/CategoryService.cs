@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using System.Text.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
 
 namespace RecipeUIClassLib.Areas.Recipes.Services
@@ -40,11 +40,9 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             _logger.LogDebug("Getting all categories");
             var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");
             _logger.LogDebug("RecipeApi url is {0}", uri);
-
-            var responseString = await _httpClient.GetStringAsync(uri);
+            var categories = JsonSerializer.Deserialize<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri));
             _logger.LogDebug("Got categories from the API, woot");
 
-            var categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(responseString);
             return categories;
         }
     }
