@@ -2,7 +2,7 @@
 version: '3.4'
 services:
   recipe-api:
-    image: recipieces/recipe-api:${TAG:-latest}
+    image: quattro004/recipieces-recipe-api:${TAG:-latest}
     build:
       context: .
       dockerfile: RecipeApi/Dockerfile
@@ -10,7 +10,7 @@ services:
       - mongo
 
   web:
-    image: recipieces/web:${TAG:-latest}
+    image: quattro004/recipieces-web:${TAG:-latest}
     build:
       context: .
       dockerfile: ./Dockerfile
