@@ -106,7 +106,7 @@ namespace RecipiecesWeb
             app.UseAuthorization();
  
             app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
         }
