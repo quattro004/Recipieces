@@ -16,6 +16,7 @@ namespace RecipiecesWeb.Models
         
         [PersonalData]
         public string LastName { get; set; }
-        
+
+        public bool IsAdmin { get; set; }
     }
 }

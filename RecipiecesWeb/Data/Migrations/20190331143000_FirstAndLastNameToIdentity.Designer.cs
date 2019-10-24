@@ -148,6 +148,8 @@ namespace RecipiecesWeb.Data.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<bool>("IsAdmin");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");

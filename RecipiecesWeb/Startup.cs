@@ -13,6 +13,8 @@ using RecipiecesWeb.Models;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using RecipiecesWeb.Areas.Identity;
 
 namespace RecipiecesWeb
 {
@@ -38,6 +40,17 @@ namespace RecipiecesWeb
             .AddDefaultUI()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+            
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
+
+            services.AddSingleton<IAuthorizationHandler, IsAdminHandler>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin", policyIsAdminRequirement =>
+                {
+                    policyIsAdminRequirement.Requirements.Add(new IsAdminRequirement());
+                });
+            });
 
             services.Configure<IdentityOptions>(options =>
             {

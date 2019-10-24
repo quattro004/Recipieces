@@ -15,6 +15,11 @@ namespace RecipiecesWeb.Data.Migrations
                 name: "LastName",
                 table: "AspNetUsers",
                 nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsAdmin",
+                table: "AspNetUsers",
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -25,6 +30,11 @@ namespace RecipiecesWeb.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "LastName",
+                table: "AspNetUsers");
+
+
+            migrationBuilder.DropColumn(
+                name: "IsAdmin",
                 table: "AspNetUsers");
         }
     }
