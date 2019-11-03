@@ -1,23 +1,19 @@
-FROM microsoft/aspnetcore:2.0 AS base
+# Create an image for the Recipieces website
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS base
 WORKDIR /app
+ENV ASPNETCORE_URLS http://+:80
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS publish
 WORKDIR /src
-COPY Recipieces.sln ./
-COPY RecipiecesWeb/RecipiecesWeb.csproj RecipiecesWeb/
-COPY Recipieces.FeaturesPlugin/Recipieces.FeaturesPlugin.csproj Recipieces.FeaturesPlugin/
-COPY Recipieces.PluginProvider/Recipieces.PluginProvider.csproj Recipieces.PluginProvider/
-RUN dotnet restore
-
-COPY . .
-WORKDIR /src
-RUN dotnet build -c Release -o /app
-
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
+COPY ./RecipiecesWeb ./RecipiecesWeb
+COPY ./RecipeUIClassLib ./RecipeUIClassLib
+RUN dotnet restore ./RecipeUIClassLib/RecipeUIClassLib.csproj /ignoreprojectextensions:.dcproj
+RUN dotnet restore ./RecipiecesWeb/RecipiecesWeb.csproj /ignoreprojectextensions:.dcproj 
+RUN dotnet publish ./RecipiecesWeb/RecipiecesWeb.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=publish /app ./
 ENTRYPOINT ["dotnet", "RecipiecesWeb.dll"]

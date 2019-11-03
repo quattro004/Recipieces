@@ -13,25 +13,21 @@ namespace RecipiecesWeb.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            //ViewData["Message"] = "";
-
+            ViewData["Title"] = "ya ain't livin if ya ain't eatin good!";
             return View();
         }
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "Admins")]
+        public IActionResult Users()
+        {
+            ViewData["Message"] = "Registered users";
+
+            // TODO: finish him!
             return View();
         }
 

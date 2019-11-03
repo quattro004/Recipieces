@@ -1,0 +1,66 @@
+@model RecipeUIClassLib.Areas.Recipes.Models.RecipeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="form-row">
+    <div class="form-group col-6">
+        <input asp-for="Recipe.Title" class="form-control" autofocus placeholder="Title" />
+        <span asp-validation-for="Recipe.Title" class="text-danger"></span>
+    </div>
+    <div class="form-group col-3">
+        <select asp-for="SelectedCategory" asp-items="Model.Categories" class="form-control">
+            <option>Select Category</option>
+        </select>
+        <span asp-validation-for="Recipe.Category" class="text-danger"></span>
+    </div>
+    <div class="form-group col-3">
+        <input asp-for="Recipe.Yield" class="form-control" placeholder="Yield" />
+        <span asp-validation-for="Recipe.Yield" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <input asp-for="Recipe.Description" class="form-control" placeholder="Description" />
+        <span asp-validation-for="Recipe.Description" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">             
+    <div class="form-group col-8">
+        <textarea asp-for="Ingredients" class="form-control" rows="6" placeholder="Enter a list of ingredients"></textarea>
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
+    </div>
+    <div class="form-group col-4">
+        <textarea asp-for="Keywords" class="form-control" rows="3" placeholder="Keywords"></textarea>
+        <span asp-validation-for="Keywords" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <textarea asp-for="Preparation" class="form-control" rows="3" placeholder="Enter any preparation steps"></textarea>
+        <span asp-validation-for="Preparation" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <label for="PrepTime" class="col-sm-1 col-form-label-sm">Prep time</label>
+    <div class="form-group input-group input-group-sm col-sm-1">
+        <input asp-for="PrepTime" type="text" placeholder="00:00" required
+                title="Time format HH:MM - Example: 1:45 for 1 hr 45 min "
+                pattern="([0-9]|2[0-3]):[0-5][0-9]"
+                class="form-control" />
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <textarea asp-for="Instructions" class="form-control" rows="8" placeholder="Enter cooking instructions"></textarea>
+        <span asp-validation-for="Instructions" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <label for="CookTime" class="col-sm-1 col-form-label-sm">Cooking time</label>
+    <div class="form-group input-group input-group-sm col-sm-1">
+        <input asp-for="CookTime" type="text" placeholder="00:00" required
+                title="Time format HH:MM - Example: 1:45 for 1 hr 45 min "
+                pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                class="form-control" />
+    </div>
+</div>

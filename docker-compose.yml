@@ -1,0 +1,29 @@
+#docker-compose.yml (Base)
+version: '3.4'
+services:
+  recipe-api:
+    image: quattro004/recipieces-recipe-api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: RecipeApi/Dockerfile
+    depends_on:
+      - mongo
+
+  web:
+    image: quattro004/recipieces-web:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - recipe-api
+    volumes:
+       - sqllite-data:/home/reese/src/Recipieces/RecipiecesWeb
+  
+  mongo:
+    image: mongo
+    volumes:
+       - mongodb-data:/var/lib/mongodb
+
+volumes:
+  sqllite-data:
+  mongodb-data:
