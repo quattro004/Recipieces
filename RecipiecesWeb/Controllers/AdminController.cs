@@ -29,7 +29,8 @@ namespace RecipiecesWeb.Controllers
                     IsAdmin = user.IsAdmin,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    EmailConfirmed = user.EmailConfirmed
+                    EmailConfirmed = user.EmailConfirmed,
+                    LockedOut = user.LockoutEnabled && user.LockoutEnd.HasValue
                 }).ToListAsync());
         }
  
@@ -53,7 +54,8 @@ namespace RecipiecesWeb.Controllers
                 IsAdmin = user.IsAdmin,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                EmailConfirmed = user.EmailConfirmed
+                EmailConfirmed = user.EmailConfirmed,
+                LockedOut = user.LockoutEnabled && user.LockoutEnd.HasValue
             });
         }
  
@@ -101,7 +103,8 @@ namespace RecipiecesWeb.Controllers
                 IsAdmin = user.IsAdmin,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                EmailConfirmed = user.EmailConfirmed
+                EmailConfirmed = user.EmailConfirmed,
+                LockedOut = user.LockoutEnabled && user.LockoutEnd.HasValue
             });
         }
  
@@ -123,6 +126,11 @@ namespace RecipiecesWeb.Controllers
                     user.FirstName = adminViewModel.FirstName;
                     user.LastName = adminViewModel.LastName;
                     user.EmailConfirmed = adminViewModel.EmailConfirmed;
+                    if (!adminViewModel.LockedOut && user.LockoutEnd.HasValue)
+                    {
+                        user.LockoutEnd = null; // Unlocks the user
+                        adminViewModel.LockedOut = false;
+                    }
  
                     await _userManager.UpdateAsync(user);
                 }
