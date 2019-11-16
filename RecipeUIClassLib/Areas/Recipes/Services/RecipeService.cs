@@ -71,7 +71,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             }
             _logger.LogDebug("Got recipes from the API, woot");
 
-            var recipes = JsonSerializer.Deserialize<IEnumerable<RecipeViewModel>>(responseString);
+            var recipes = JsonSerializer.Deserialize<IEnumerable<RecipeViewModel>>(responseString,
+                new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
             return recipes;
         }
 
@@ -113,7 +114,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             {
                 return null;
             }
-            var recipe = JsonSerializer.Deserialize<RecipeViewModel>(responseString);
+            var recipe = JsonSerializer.Deserialize<RecipeViewModel>(responseString,
+                new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
             return recipe;
         }
 

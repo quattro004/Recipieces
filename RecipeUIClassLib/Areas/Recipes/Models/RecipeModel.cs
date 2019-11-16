@@ -23,7 +23,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [BindProperty]
         public RecipeViewModel Recipe { get; set; }
 
-        public SelectList Categories { get; set; }
+        public List<SelectListItem> Categories { get; set; }
 
         [BindProperty]
         public string SelectedCategory { get; set; }
@@ -61,7 +61,9 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
                 _categories = await _categoryService.List();
                 _logger.LogDebug("Received {0} categories from the service.", _categories.Count());
             }
-            Categories = new SelectList(_categories, "Id", "Name");
+            Categories = (from cat in _categories
+                         select new SelectListItem(cat.Name, cat.Id)).ToList();
+            _logger.LogDebug("Cat is text: {0}, value: {1}.", Categories[0].Text, Categories[0].Value);            
         }
 
         protected void ValidateRecipe()

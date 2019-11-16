@@ -19,11 +19,11 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
         public CreateModel(IRecipeService recipeService, ICategoryService categoryService, ILogger<RecipeService> logger) 
             : base(recipeService, categoryService, logger)
         {
+            BuildCategories().GetAwaiter().GetResult();
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            await BuildCategories();
             return Page();
         }
         
@@ -31,7 +31,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
         {
             _logger.LogDebug("Creating a recipe");
             BuildRecipe();
-            await BuildCategories();
             Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
             await _recipeService.CreateAsync(Recipe);
 

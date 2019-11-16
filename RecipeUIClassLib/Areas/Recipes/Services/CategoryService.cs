@@ -40,7 +40,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             _logger.LogDebug("Getting all categories");
             var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");
             _logger.LogDebug("RecipeApi url is {0}", uri);
-            var categories = JsonSerializer.Deserialize<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri));
+            var categories = JsonSerializer.Deserialize<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri),
+                new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
             _logger.LogDebug("Got categories from the API, woot");
 
             return categories;
