@@ -28,5 +28,5 @@ services:
        - mongodb-data:/data
 
 volumes:
-  # sqllite-data:
+  sqllite-data:
   mongodb-data:

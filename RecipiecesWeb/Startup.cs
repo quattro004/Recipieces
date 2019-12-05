@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using RecipiecesWeb.Areas.Identity;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 
 namespace RecipiecesWeb
 {
@@ -30,6 +32,22 @@ namespace RecipiecesWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            const string containerPath = @"/app/data";
+            DirectoryInfo dataKeyDirectory;
+
+            if (Directory.Exists(containerPath))
+            {
+                dataKeyDirectory = new DirectoryInfo(containerPath);
+            }
+            else
+            {
+                dataKeyDirectory = new DirectoryInfo(AppContext.BaseDirectory);
+            }
+
+            services.AddDataProtection()
+                .SetApplicationName("recipieces-web")
+                .PersistKeysToFileSystem(dataKeyDirectory);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -77,21 +95,19 @@ namespace RecipiecesWeb
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
 
                 options.LoginPath = "/Identity/Account/Login";
                 options.LogoutPath = "/Identity/Account/Logout";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-
             // services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<IRecipeService, RecipeService>();
             services.Configure<RecipeApiOptions>(Configuration);
             
-            services.AddRouting();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -113,8 +129,9 @@ namespace RecipiecesWeb
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            app.UseStaticFiles();
+            app.UseFileServer();
             app.UseRouting();
+            app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
  

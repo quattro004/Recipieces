@@ -41,12 +41,13 @@
     </div>
 </div>
 <div class="form-row">
-    <label for="PrepTime" class="col-sm-1 col-form-label-sm">Prep time</label>
+    <label for="Recipe.PrepTime" class="col-sm-1 col-form-label-sm">Prep time</label>
     <div class="form-group input-group input-group-sm col-sm-1">
-        <input asp-for="PrepTime" type="text" placeholder="00:00" required
+        <input asp-for="Recipe.PrepTime" type="text" placeholder="00:00"
                 title="Time format HH:MM - Example: 1:45 for 1 hr 45 min "
                 pattern="([0-9]|2[0-3]):[0-5][0-9]"
                 class="form-control" />
+        <span asp-validation-for="Recipe.PrepTime" class="text-danger"></span>
     </div>
 </div>
 <div class="form-row">
@@ -56,11 +57,12 @@
     </div>
 </div>
 <div class="form-row">
-    <label for="CookTime" class="col-sm-1 col-form-label-sm">Cooking time</label>
+    <label for="Recipe.CookTime" class="col-sm-1 col-form-label-sm">Cooking time</label>
     <div class="form-group input-group input-group-sm col-sm-1">
-        <input asp-for="CookTime" type="text" placeholder="00:00" required
+        <input asp-for="Recipe.CookTime" type="text" placeholder="00:00" required
                 title="Time format HH:MM - Example: 1:45 for 1 hr 45 min "
-                pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                pattern="([0-9]|2[0-3]):[0-5][0-9]"
                 class="form-control" />
+        <span asp-validation-for="Recipe.CookTime" class="text-danger"></span>
     </div>
 </div>

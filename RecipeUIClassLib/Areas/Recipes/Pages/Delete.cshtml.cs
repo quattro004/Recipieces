@@ -49,7 +49,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
                 return Page();
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("./Index");
         }
     }
 }

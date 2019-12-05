@@ -40,12 +40,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [BindProperty]
         public string Instructions { get; set; }
 
-        [BindProperty]
-        public string CookTime { get; set; }
-
-        [BindProperty]
-        public string PrepTime { get; set; }
-
         public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -63,7 +57,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             }
             Categories = (from cat in _categories
                          select new SelectListItem(cat.Name, cat.Id)).ToList();
-            _logger.LogDebug("Cat is text: {0}, value: {1}.", Categories[0].Text, Categories[0].Value);            
         }
 
         protected void ValidateRecipe()
@@ -92,14 +85,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             Recipe.Ingredients = Ingredients.FromDelimited();
             Recipe.Preparation = Preparation.FromDelimited();
             Recipe.Keywords = Keywords.FromDelimited();
-            if (TimeSpan.TryParseExact(CookTime, "g", null, out var cookTime))
-            {
-               Recipe.CookTime = cookTime;
-            }
-            if (TimeSpan.TryParseExact(PrepTime, "g", null, out var prepTime))
-            {
-               Recipe.PrepTime = prepTime;
-            }   
         }
     }
 }

@@ -67,7 +67,7 @@ namespace RecipeApi.Services
         /// <returns></returns>
         public T Get(string id)
         {
-            _logger.LogDebug("DataService.Get, id: ", id);
+            _logger.LogDebug("DataService.Get, id: {0}", id);
             var dataObject = _data.Find<T>(d => d.Id == id).FirstOrDefault();
 
             return null == dataObject ? DataObject.NotCreated as T : dataObject;
@@ -96,7 +96,7 @@ namespace RecipeApi.Services
         /// <returns>1 if successful 0 otherwise.</returns>
         public async Task<long> Update(string id, T dataIn)
         {
-            _logger.LogDebug("DataService.ReplaceOneAsync, id: ", id);
+            _logger.LogDebug("DataService.ReplaceOneAsync, id: {0}", id);
             var result = await _data.ReplaceOneAsync(d => d.Id == id, dataIn);
             return result.ModifiedCount;
         }
@@ -119,7 +119,7 @@ namespace RecipeApi.Services
         /// <returns>1 if successful 0 otherwise.</returns>
         public async Task<long> Remove(string id)
         {
-            _logger.LogDebug("DataService.Remove, id: ", id);
+            _logger.LogDebug("DataService.Remove, id: {0}", id);
             var result = await _data.DeleteOneAsync(d => d.Id == id);
             return result.DeletedCount;
         }

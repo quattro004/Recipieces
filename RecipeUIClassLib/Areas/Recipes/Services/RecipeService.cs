@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System.Text.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using RecipeUIClassLib.Extensions;
+using Newtonsoft.Json;
 
 namespace RecipeUIClassLib.Areas.Recipes.Services
 {
@@ -47,7 +48,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             {
                 _logger.LogDebug("Posting a recipe to the API");
                 var response = await _httpClient.PostAsync(_recipeUri,
-                    new StringContent(JsonSerializer.Serialize(recipe), Encoding.UTF8, "application/json"));
+                    new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception exc)
@@ -71,8 +72,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             }
             _logger.LogDebug("Got recipes from the API, woot");
 
-            var recipes = JsonSerializer.Deserialize<IEnumerable<RecipeViewModel>>(responseString,
-                new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
+            var recipes = JsonConvert.DeserializeObject<IEnumerable<RecipeViewModel>>(responseString);
             return recipes;
         }
 
@@ -88,7 +88,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
                 {
                     throw new ArgumentNullException(nameof(recipe));
                 }
-                var recipeData = JsonSerializer.Serialize(recipe);
+                var recipeData = JsonConvert.SerializeObject(recipe);
                 _logger.LogDebug(recipeData);
                 var response = await _httpClient.PutAsync($"{_recipeUri}/{recipe.Id}",
                     new StringContent(recipeData, Encoding.UTF8, "application/json"));
@@ -114,8 +114,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             {
                 return null;
             }
-            var recipe = JsonSerializer.Deserialize<RecipeViewModel>(responseString,
-                new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
+            var recipe = JsonConvert.DeserializeObject<RecipeViewModel>(responseString);
             return recipe;
         }
 

@@ -1,0 +1,37 @@
+{
+    "title": "Garlic Pizza",
+    "description": "Best pizza ever!",
+    "instructions": [
+        "Combine the sugar and flour in a bowl and mix",
+        "Add butter",
+        "Mix some more",
+        "Enjoy!"
+    ],
+    "prepTime": "00:15:00",
+    "cookTime": "01:30:00",
+    "keywords": [
+        "Cookie",
+        "Awesome"
+    ],
+    "yield": "Makes 12 pieces of pizza",
+    "ingredients": [
+        "Flour",
+        "Sugar",
+        "Butter"
+    ],
+    "preparation": [
+        "Ensure the butter is room temperature"
+    ],
+    "category": {
+        "name": "Dessert",
+        "description": null,
+        "id": "5cd6b838e9661d00016cbdda",
+        "createdOn": "0001-01-01T00:00:00Z",
+        "modifiedOn": "0001-01-01T00:00:00Z",
+        "doesNotExist": false
+    },
+    "id": "5ce93843383cf400017b105e",
+    "createdOn": "0001-01-01T00:00:00Z",
+    "modifiedOn": "0001-01-01T00:00:00Z",
+    "doesNotExist": false
+}
