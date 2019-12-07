@@ -17,27 +17,22 @@
 else
 {
     var recipes = Model.Recipes.ToList();
-    var closedCardDeck = false;
+    var closeCardDeck = false;
     
     <div class="row">
+        <div class='card-deck'>
         @for (var index = 0; index < recipes.Count(); index++)
         {
-            <!-- Only allow 3 cards per row -->
-            var addRow = index % 3 == 0;
+            <!-- Only allow 3 cards per deck -->
+            var addCardDeck = @index != 0 && @index % 3 == 0;
             var recipe = recipes[index];
             var recipeId = recipe.Id;
-            var cardCount = 0;
 
-            if (@addRow)
+            if (@addCardDeck)
             {
-                closedCardDeck = false;
-                if (@cardCount == 3)
-                {
-                    @Html.Raw("</div>"); // Close the previous card deck before starting a new one
-                    cardCount = 0;
-                    closedCardDeck = true;
-                }
+                @Html.Raw("</div>"); // Close the previous card deck before starting a new one
                 @Html.Raw("<div class='card-deck'>");
+                closeCardDeck = true;
             }
                 <div class="card shadow-sm text-white bg-dark mb-3" style="max-width: 18rem;">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
@@ -64,11 +59,11 @@ else
                         </small>
                     </div>
                 </div>
-                cardCount++;
         }
-        @if (!@closedCardDeck) // Check to see if the last card deck was closed, can happen when there are less than 3 cards in the final deck
+        @if (@closeCardDeck)
         {
-            Html.Raw("</div>"); 
+            Html.Raw("</div>");
         }
+        </div>
     </div>
 }
