@@ -44,7 +44,6 @@ namespace RecipeApi
             services.AddScoped<DataService<Recipe>>();
             
             services.AddRouting();
-            services.AddResponseCaching();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -87,20 +86,6 @@ namespace RecipeApi
             });
 
             app.UseRouting();
-            app.UseResponseCaching();
-            app.Use(async (context, next) =>
-            {
-                context.Response.GetTypedHeaders().CacheControl = 
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        Public = true,
-                        MaxAge = TimeSpan.FromHours(1)
-                    };
-                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] = 
-                    new string[] { "Accept-Encoding" };
-
-                await next();
-            });
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
