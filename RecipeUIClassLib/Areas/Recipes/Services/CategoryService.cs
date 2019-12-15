@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
+using Newtonsoft.Json;
 
 namespace RecipeUIClassLib.Areas.Recipes.Services
 {
@@ -40,7 +41,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
             _logger.LogDebug("Getting all categories");
             var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");
             _logger.LogDebug("RecipeApi url is {0}", uri);
-            var categories = JsonSerializer.Deserialize<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri));
+            var categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri));
             _logger.LogDebug("Got categories from the API, woot");
 
             return categories;

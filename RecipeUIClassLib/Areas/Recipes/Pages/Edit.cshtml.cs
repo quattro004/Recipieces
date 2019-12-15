@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using RecipeUIClassLib.Areas.Recipes.Services;
@@ -32,14 +29,6 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             Ingredients = Recipe.Ingredients.ToDelimited();
             Keywords = Recipe.Keywords.ToDelimited();
             Preparation = Recipe.Preparation.ToDelimited();
-
-            var prepTimeMinutes = Recipe.PrepTime.Minutes;
-            var prepMinutesDisplay = prepTimeMinutes < 10 ? $"0{prepTimeMinutes}" : prepTimeMinutes.ToString();
-            PrepTime = $"{Recipe.PrepTime.Hours}:{prepMinutesDisplay}";
-
-            var cookTimeMinutes = Recipe.CookTime.Minutes;
-            var cookMinutesDisplay = cookTimeMinutes < 10 ? $"0{cookTimeMinutes}" : cookTimeMinutes.ToString();
-            CookTime = $"{Recipe.CookTime.Hours}:{cookMinutesDisplay}";
             
             return Page();
         }
@@ -66,11 +55,11 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             catch (Exception exc)
             {
                 _logger.LogError(exc, exc.Message);
-                ModelState.AddModelError("Edit", exc.Message);
+                ModelState.AddModelError("Edit-Recipe", exc.Message);
                 return Page();
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("./Index");
         }
     }
 }

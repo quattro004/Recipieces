@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using RecipeApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace RecipeApi
 {
