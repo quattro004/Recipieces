@@ -11,7 +11,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/RecipiecesWeb/bin/Debug/netcoreapp3.0/RecipiecesWeb.dll",
+            "program": "${workspaceFolder}/RecipiecesWeb/bin/Debug/netcoreapp3.1/RecipiecesWeb.dll",
             "args": [],
             "cwd": "${workspaceFolder}/RecipiecesWeb",
             "stopAtEntry": false,
