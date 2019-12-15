@@ -14,6 +14,8 @@ db.Category.insertOne({'Name':'Drinks','Description':'Thirsty anyone?', 'Created
 db.Category.insertOne({'Name':'Kids','Description':'For the picky tykes.', 'CreatedOn': '2013-04-01T17:45:00', 'ModifiedOn': '2013-04-01T17:45:00'})
 db.Category.insertOne({'Name':'Casserole','Description':'Yee haw boys, yee haw boys', 'CreatedOn': '2013-04-01T17:45:00', 'ModifiedOn': '2013-04-01T17:45:00'})
 db.Category.insertOne({'Name':'Sides','Description':'Gotta have em', 'CreatedOn': '2013-04-01T17:45:00', 'ModifiedOn': '2013-04-01T17:45:00'})
+db.Category.insertOne({'Name':'Desserts','Description':'Yummy!', 'CreatedOn': '2013-04-01T17:45:00', 'ModifiedOn': '2013-04-01T17:45:00'})
+db.Category.insertOne({'Name':'Dinner','Description':'Lest ye starve all night', 'CreatedOn': '2013-04-01T17:45:00', 'ModifiedOn': '2013-04-01T17:45:00'})
 
 db.createCollection('Recipe')
 
