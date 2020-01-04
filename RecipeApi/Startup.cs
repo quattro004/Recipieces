@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RecipeApi.Services;
+using Infrastructure.Services;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using RecipeApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace RecipeApi
 {
@@ -43,7 +42,6 @@ namespace RecipeApi
             services.AddScoped<DataService<Category>>();
             services.AddScoped<DataService<Recipe>>();
             
-            services.AddRouting();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -66,11 +64,6 @@ namespace RecipeApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                // app.UseHsts();
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

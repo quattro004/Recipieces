@@ -2,7 +2,7 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace RecipeApi.Models
+namespace Infrastructure.Models
 {
     /// <summary>
     /// Defines a data object which is used for CRUD.

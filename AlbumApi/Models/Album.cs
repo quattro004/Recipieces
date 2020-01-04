@@ -1,14 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Infrastructure.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace RecipeApi.Models
+namespace AlbumApi.Models
 {
     /// <summary>
-    /// Represents a recipe category.
+    /// Represents an album. An album is a container for things like photos, video, etc.
     /// </summary>
-    public class Category : DataObject
+    public class Album<T> : DataObject where T : DataObject
     {
 #pragma warning disable CS1591 // Disable xml comment warnings
         
@@ -18,5 +20,8 @@ namespace RecipeApi.Models
         
         [BsonElement("Description")]
         public string Description { get; set; }
+
+        [BsonElement("Contents")]
+        public IEnumerable<T> Contents { get; set; }
     }
 }

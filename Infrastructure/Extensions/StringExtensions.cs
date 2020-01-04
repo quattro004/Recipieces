@@ -1,4 +1,4 @@
-namespace RecipeApi.Extensions
+namespace Infrastructure.Extensions
 {
     /// <summary>
     /// Contains extensions for the <see cref="string"/> data type.

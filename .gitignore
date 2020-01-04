@@ -274,3 +274,4 @@ __pycache__/
 
 # SQL Lite database
 *.db
+/RecipeApi/logs

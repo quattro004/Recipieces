@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecipeApi.Models;
-using RecipeApi.Services;
+using Infrastructure.Services;
 
 namespace RecipeApi.Controllers
 {

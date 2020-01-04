@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
-using RecipeApi.Extensions;
-using RecipeApi.Models;
+using Infrastructure.Extensions;
+using Infrastructure.Models;
 
-namespace RecipeApi.Services
+namespace Infrastructure.Services
 {
     /// <summary>
     /// Provides base data access functionality. Currently using Mongo.
