@@ -23,7 +23,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
         [BindProperty]
         public RecipeViewModel Recipe { get; set; }
 
-        public List<SelectListItem> Categories { get; set; }
+        public List<SelectListItem> Categories { get; private set; }
 
         [BindProperty]
         public string SelectedCategory { get; set; }

@@ -6,38 +6,44 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Infrastructure.Extensions;
 using Infrastructure.Models;
+using Infrastructure.Interfaces;
+using Infrastructure.Properties;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Services
 {
     /// <summary>
     /// Provides base data access functionality. Currently using Mongo.
     /// </summary>
-    public class DataService<T> where T : DataObject, new()
+    public class DataService<T> : IDataService<T> where T : DataObject, new()
     {
         private readonly ILogger _logger;
-        private readonly IConfiguration _config; 
+        private readonly ApiOptions _options;
         private readonly IMongoCollection<T> _data;
 
 
         /// <summary>
         /// Constructs a data service 
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="optionsAccessor"></param>
         /// <param name="logger"></param>
-        public DataService(IConfiguration config, ILogger<DataService<T>> logger)
+        public DataService(IOptionsMonitor<ApiOptions> optionsAccessor, ILogger<DataService<T>> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _config = config ?? throw new ArgumentNullException(nameof(config));
+            _options = optionsAccessor?.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
+
             try
             {
                 _logger.LogDebug("Creating a MongoClient");
-                var connectionString = _config.GetConnectionString("RecipeDb");
-                
+                var connectionString = _options.ConnectionString;
+                if (connectionString.IsNullOrWhiteSpace())
+                {
+                    throw new ArgumentException(Resources.ConnStringRequired);
+                }
                 _logger.LogDebug("Connection string is {0}", connectionString);
                 var client = new MongoClient(connectionString);
-                
-                _logger.LogDebug("Getting database RecipeDb");
-                var database = client.GetDatabase("RecipeDb");
+                _logger.LogDebug("Getting database {0}", _options.DbName);
+                var database = client.GetDatabase(_options.DbName);
 
                 var name = typeof(T).Name;
                 _logger.LogDebug("Getting the {0} collection", name);
@@ -46,7 +52,7 @@ namespace Infrastructure.Services
             catch (Exception exc)
             {
                 _logger.LogError(exc.Message, exc);
-                throw exc;
+                throw;
             }
         }
 
@@ -54,10 +60,10 @@ namespace Infrastructure.Services
         /// Gets a list of data objects
         /// </summary>
         /// <returns>List of data</returns>
-        public IEnumerable<T> List()
+        public async Task<IEnumerable<T>> List()
         {
             _logger.LogDebug("DataService.List");
-            return _data.Find(t => true).ToList();
+            return (await _data.FindAsync(t => true)).ToList();
         }
 
         /// <summary>
@@ -65,10 +71,10 @@ namespace Infrastructure.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T Get(string id)
+        public async Task<T> GetData(string id)
         {
             _logger.LogDebug("DataService.Get, id: {0}", id);
-            var dataObject = _data.Find<T>(d => d.Id == id).FirstOrDefault();
+            var dataObject = (await _data.FindAsync(d => d.Id == id)).FirstOrDefault();
 
             return null == dataObject ? DataObject.NotCreated as T : dataObject;
         }

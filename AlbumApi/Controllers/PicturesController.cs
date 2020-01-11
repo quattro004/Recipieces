@@ -2,61 +2,38 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AlbumApi.Models;
+using Infrastructure.Controllers;
+using Infrastructure.Interfaces;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace AlbumApi.Controllers
 {
     /// <summary>
     /// Manages pictures. An album must be created first.
     /// </summary>
-    [Produces("application/json")]
     [Route("albums/{albumId}/[controller]")]
-    [ApiController]
-    public class PicturesController : ControllerBase
+    public class PicturesController : BaseController<Album<Picture>>
     {
         /// <summary>
-        /// Gets a picture album.
+        /// Constructs a picture album API controller.
         /// </summary>
+        /// <param name="pictureService"></param>
+        /// <param name="logger"></param>
+        public PicturesController(IDataService<Album<Picture>> pictureService, ILogger<PicturesController> logger)
+            : base(pictureService, logger)
+        {
+        }
+
+        /// <summary>
+        /// Overridden in order to set the name attribute on HttpGet, the name must be unique per controller.
+        /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<Album<Picture>> Get()
+        [HttpGet("{id:length(24)}", Name = "GetPicture")]
+        public override async Task<ActionResult<Album<Picture>>> GetData(string id)
         {
-            return new Album<Picture>
-            {
-                Id = "42",
-                Name = "Kids",
-                Description = "Pictures of the kids",
-                Contents = new List<Picture>
-                {
-                    new Picture { Name = "Xavier", Id = "23e32", DateTaken = DateTime.Now.AddDays(-21) },
-                    new Picture { Name = "Xander", Id = "23e343", DateTaken = DateTime.Now.AddDays(-13) }
-                },
-
-            };
-        }
-
-        // GET: api/Picture/5
-        [HttpGet("{id}", Name = "Get_Pictures")]
-        public ActionResult<Picture> Get(int id)
-        {
-            return Ok(new Picture { Name = "Xavier", Id = "23e32", DateTaken = DateTime.Now.AddDays(-21) });
-        }
-
-        // POST: api/Picture
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Picture/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await base.GetData(id);
         }
     }
 }

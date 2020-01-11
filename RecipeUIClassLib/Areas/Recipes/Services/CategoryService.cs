@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
 using RecipeUIClassLib.Areas.Recipes.Models;
 using Newtonsoft.Json;
 
@@ -19,6 +18,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         private readonly HttpClient _httpClient;
         private readonly ILogger _logger;
         private readonly RecipeApiOptions _options;
+        private readonly Uri _categoryApiUri;
 
         /// <summary>
         /// Constructs a <see cref="CategoryService" /> using a typed <see cref="HttpClient" />.
@@ -29,7 +29,9 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _options = optionsAccessor.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
+            _options = optionsAccessor?.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
+            _categoryApiUri = new Uri(Path.Combine(_options.RecipeApiBaseUrl, "categories"));
+            _logger.LogDebug("CategoryApi url is {0}", _categoryApiUri);
         }
 
         /// <summary>
@@ -39,9 +41,8 @@ namespace RecipeUIClassLib.Areas.Recipes.Services
         public async Task<IEnumerable<CategoryViewModel>> List()
         {
             _logger.LogDebug("Getting all categories");
-            var uri = Path.Combine(_options.RecipeApiBaseUrl, "categories");
-            _logger.LogDebug("RecipeApi url is {0}", uri);
-            var categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(await _httpClient.GetStringAsync(uri));
+            var categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(
+                await _httpClient.GetStringAsync(_categoryApiUri));
             _logger.LogDebug("Got categories from the API, woot");
 
             return categories;

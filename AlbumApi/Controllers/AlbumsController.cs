@@ -1,47 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using AlbumApi.Models;
+using Infrastructure.Controllers;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace AlbumApi.Controllers
 {
-
     /// <summary>
     /// Manages albums.
     /// </summary>
-    [Produces("application/json")]
     [Route("[controller]")]
-    [ApiController]
-    public class AlbumsController : ControllerBase
+    public class AlbumsController : BaseController<Album<DataObject>>
     {
-        // GET: api/Album
-        [HttpGet]
-        public IEnumerable<string> List()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Album/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Album
-        [HttpPost]
-        public void Post([FromBody] string value)
+        /// <summary>
+        /// Constructs a album API controller.
+        /// </summary>
+        /// <param name="albumService"></param>
+        /// <param name="logger"></param>
+        public AlbumsController(IDataService<Album<DataObject>> albumService, ILogger<AlbumsController> logger)
+            : base(albumService, logger)
         {
         }
 
-        // PUT: api/Album/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// Overridden in order to set the name attribute on HttpGet, the name must be unique per controller.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}", Name = "GetAlbum")]
+        public override async Task<ActionResult<Album<DataObject>>> GetData(string id)
         {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await base.GetData(id);
         }
     }
 }

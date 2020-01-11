@@ -7,7 +7,7 @@ using NLog.Web;
 
 namespace RecipiecesWeb
 {
-    public class Program
+    public sealed class Program
     {
         public static void Main(string[] args)
         {

@@ -33,7 +33,9 @@ namespace Infrastructure.Models
         /// </summary>
         /// <value></value>
         [BsonIgnore]
-        public static DataObject NotCreated = new DataObject
+        public static DataObject NotCreated { get => notCreated; set => notCreated = value; }
+
+        private static DataObject notCreated = new DataObject
         {
             Id = string.Empty,
             DoesNotExist = true

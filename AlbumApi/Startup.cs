@@ -1,16 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using AlbumApi.Models;
+using Infrastructure;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -42,6 +42,10 @@ namespace AlbumApi
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDataService<Album<DataObject>>, DataService<Album<DataObject>>>();
+            services.AddScoped<IDataService<Album<Picture>>, DataService<Album<Picture>>>();
+            services.Configure<ApiOptions>(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

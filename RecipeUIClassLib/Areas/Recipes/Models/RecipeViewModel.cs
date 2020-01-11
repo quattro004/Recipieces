@@ -73,7 +73,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
 
         public bool IsSecret { get; set; }
 
-        private string GetTimespanString(TimeSpan timeSpan)
+        private static string GetTimespanString(TimeSpan timeSpan)
         {
             var minutes = timeSpan.Minutes;
             string minutesDisplay = minutes.ToString();

@@ -19,5 +19,7 @@ db.Category.insertOne({'Name':'Dinner','Description':'Lest ye starve all night',
 
 db.createCollection('Recipe')
 
+use AlbumDb
+db.createCollection('Album')
+
 show collections
-db.Recipe.find()

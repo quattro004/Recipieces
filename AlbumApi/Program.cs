@@ -13,7 +13,7 @@ namespace AlbumApi
     /// <summary>
     /// Runs the album api.
     /// </summary>
-    public class Program
+    public sealed class Program
     {
         /// <summary>
         /// Main entry point.

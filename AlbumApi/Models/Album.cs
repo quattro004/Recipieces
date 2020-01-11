@@ -10,7 +10,7 @@ namespace AlbumApi.Models
     /// <summary>
     /// Represents an album. An album is a container for things like photos, video, etc.
     /// </summary>
-    public class Album<T> : DataObject where T : DataObject
+    public class Album<T> : DataObject where T : DataObject, new()
     {
 #pragma warning disable CS1591 // Disable xml comment warnings
         

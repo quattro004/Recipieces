@@ -9,7 +9,7 @@ namespace AlbumApi.Models
     /// <summary>
     /// Represents album media content like videos, pictures, music.
     /// </summary>
-    public class Media : DataObject
+    public class MediaContent : DataObject
     {
 #pragma warning disable CS1591 // Disable xml comment warnings
         [Required]

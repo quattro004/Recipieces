@@ -10,6 +10,8 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using RecipeApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Infrastructure.Interfaces;
+using Infrastructure;
 
 namespace RecipeApi
 {
@@ -39,9 +41,10 @@ namespace RecipeApi
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<DataService<Category>>();
-            services.AddScoped<DataService<Recipe>>();
-            
+            services.AddScoped<IDataService<Category>, DataService<Category>>();
+            services.AddScoped<IDataService<Recipe>, DataService <Recipe>>();
+            services.Configure<ApiOptions>(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
