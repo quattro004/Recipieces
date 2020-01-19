@@ -1,4 +1,4 @@
-using Infrastructure.Models;
+using Api.Infrastructure.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;

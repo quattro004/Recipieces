@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipeUIClassLib.Extensions;
+using RecipeUIClassLib.Infrastructure.Interfaces;
 
 namespace RecipeUIClassLib.Areas.Recipes.Models
 {
@@ -52,7 +52,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
             if (null == _categories)
             {
                 _logger.LogDebug("Getting categories");
-                _categories = await _categoryService.List();
+                _categories = await _categoryService.ListAsync();
                 _logger.LogDebug("Received {0} categories from the service.", _categories.Count());
             }
             Categories = (from cat in _categories

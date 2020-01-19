@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AlbumApi.Models;
-using Infrastructure.Controllers;
-using Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Api.Domain.Controllers;
+using Api.Domain.Interfaces;
 
 namespace AlbumApi.Controllers
 {
@@ -33,7 +33,14 @@ namespace AlbumApi.Controllers
         [HttpGet("{id:length(24)}", Name = "GetPicture")]
         public override async Task<ActionResult<Album<Picture>>> GetData(string id)
         {
-            return await base.GetData(id);
+            return await Task.FromResult(new Album<Picture>()
+            {
+                Contents = new List<Picture>
+                {
+                    new Picture { Id = Guid.NewGuid().ToString(), Name = "Test Picture"}
+                }
+            });
+           // return await base.GetData(id);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using Infrastructure.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson.Serialization.Attributes;
 using System.IO;
 using System;
+using Api.Infrastructure.Models;
 
 namespace AlbumApi.Models
 {
@@ -20,5 +20,8 @@ namespace AlbumApi.Models
         public DateTime? DateTaken { get; set; }
 
         public Stream Data { get; set; }
+
+        [BsonElement("Description")]
+        public string Description { get; set; }
     }
 }

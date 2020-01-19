@@ -1,7 +1,7 @@
 ﻿using AlbumApi.Models;
-using Infrastructure.Controllers;
-using Infrastructure.Interfaces;
-using Infrastructure.Models;
+using Api.Domain.Controllers;
+using Api.Domain.Interfaces;
+using Api.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;

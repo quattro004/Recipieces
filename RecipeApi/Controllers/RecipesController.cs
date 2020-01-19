@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Api.Domain.Controllers;
+using Api.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecipeApi.Models;
-using Infrastructure.Controllers;
-using Infrastructure.Interfaces;
 
 namespace RecipeApi.Controllers
 {

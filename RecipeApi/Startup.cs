@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Services;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using RecipeApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Infrastructure.Interfaces;
-using Infrastructure;
+using Api.Domain.Interfaces;
+using Api.Infrastructure.Services;
+using Api.Infrastructure;
 
 namespace RecipeApi
 {

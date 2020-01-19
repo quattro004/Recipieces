@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Areas.Recipes.Models;
-using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipeUIClassLib.Extensions;
+using RecipeUIClassLib.Infrastructure.Interfaces;
 
 namespace RecipeUIClassLib.Areas.Recipes.Pages
 {

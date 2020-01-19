@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RecipiecesWeb.Data;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using RecipiecesWeb.Areas.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
+using RecipeUIClassLib.Infrastructure.Interfaces;
 
 namespace RecipiecesWeb
 {
