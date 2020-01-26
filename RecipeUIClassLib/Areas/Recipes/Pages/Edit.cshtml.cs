@@ -13,17 +13,21 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
     [Authorize]
     public class EditModel : RecipeModel
     {
-        public EditModel(IRecipeService recipeService, ICategoryService categoryService, ILogger<EditModel> logger) 
-            : base(recipeService, categoryService, logger)
+        private readonly IRecipeWebApi _recipeClient;
+        private readonly ILogger _logger;
+
+        public EditModel(IRecipeWebApi recipeClient, ICategoryWebApi categoryClient, ILogger<EditModel> logger) 
+            : base(categoryClient)
         {
+            _recipeClient = recipeClient ?? throw new ArgumentNullException(nameof(recipeClient));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
             _logger.LogDebug("Getting a recipe for edit with id {0}", id);
-            Recipe = await _recipeService.GetAsync(id);
+            Recipe = await _recipeClient.GetAsync(id);
             _logger.LogDebug("Got the recipe, id is {0}", id);
-            await BuildCategories();
             SelectedCategory = Recipe.Category.Id;
             Instructions =  Recipe.Instructions.ToDelimited();
             Ingredients = Recipe.Ingredients.ToDelimited();
@@ -39,8 +43,7 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             _logger.LogDebug("Cat is {0}", SelectedCategory);
             
             BuildRecipe();
-            await BuildCategories();
-            Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
+            Recipe.Category = Categories.SingleOrDefault(c => c.Id == SelectedCategory);
             ValidateRecipe();
             if (!ModelState.IsValid)
             {
@@ -50,8 +53,9 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             try
             {
                 _logger.LogDebug("Updating a recipe with id {0}", Recipe.Id);
-                await _recipeService.UpdateAsync(Recipe);
+                await _recipeClient.UpdateAsync(Recipe.Id, Recipe);
             }
+            // TODO: what exceptions should this catch?
             catch (Exception exc)
             {
                 _logger.LogError(exc, exc.Message);

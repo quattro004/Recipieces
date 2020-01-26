@@ -8,7 +8,7 @@
         <span asp-validation-for="Recipe.Title" class="text-danger"></span>
     </div>
     <div class="form-group col-3">
-        <select asp-for="SelectedCategory" asp-items="@Model.Categories" class="form-control">
+        <select asp-for="SelectedCategory" asp-items="@Model.UiCategories" class="form-control">
             <option>Select a Category</option>
         </select>
         <span asp-validation-for="Recipe.Category" class="text-danger"></span>

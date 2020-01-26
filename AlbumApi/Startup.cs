@@ -63,6 +63,8 @@ namespace AlbumApi
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static",
+          Justification = "Framework code")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

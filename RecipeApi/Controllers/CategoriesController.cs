@@ -10,6 +10,7 @@ namespace RecipeApi.Controllers
     /// <summary>
     /// Manages recipe categories.
     /// </summary>
+    [Produces("application/json")]
     [Route("[controller]")]
     public class CategoriesController : BaseController<Category>
     {

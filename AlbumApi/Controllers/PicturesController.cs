@@ -12,6 +12,7 @@ namespace AlbumApi.Controllers
     /// <summary>
     /// Manages pictures. An album must be created first.
     /// </summary>
+    [Produces("application/json")]
     [Route("albums/{albumId}/[controller]")]
     public class PicturesController : BaseController<Album<Picture>>
     {

@@ -10,19 +10,25 @@ namespace Api.Infrastructure.Models
     /// </summary>
     public class DataObject : IDataObject
     {
-#pragma warning disable CS1591 // Disable xml comment warnings
+        /// <summary>
+        /// NoSql database identifier, currently using Mongodb
+        /// </summary>
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        
-       [BsonElement("CreatedOn")]
+
+        /// <summary>
+        /// The date/time this object was created.
+        /// </summary>
+        [BsonElement("CreatedOn")]
         public DateTime CreatedOn { get; set; }
 
+        /// <summary>
+        /// The date/time this object was modified.
+        /// </summary>
         [BsonElement("ModifiedOn")]
         public DateTime ModifiedOn { get; set; }
 
-#pragma warning restore CS1591 // Restore xml comment warnings
-       
         /// <summary>
         /// Determines whether this object was created or updated in the data store.
         /// </summary>

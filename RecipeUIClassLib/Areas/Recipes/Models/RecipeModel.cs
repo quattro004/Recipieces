@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Extensions;
 using RecipeUIClassLib.Infrastructure.Interfaces;
 
@@ -15,15 +14,13 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
     [Authorize]
     public class RecipeModel : PageModel
     {
-        protected readonly IRecipeService _recipeService;
-        private readonly ICategoryService _categoryService;
-        protected readonly ILogger _logger;
-        protected IEnumerable<CategoryViewModel> _categories;
+        private readonly ICategoryWebApi _categoryClient;
+        private IEnumerable<CategoryViewModel> _categories;
 
         [BindProperty]
         public RecipeViewModel Recipe { get; set; }
 
-        public List<SelectListItem> Categories { get; private set; }
+        public List<SelectListItem> UiCategories { get; private set; }
 
         [BindProperty]
         public string SelectedCategory { get; set; }
@@ -39,24 +36,22 @@ namespace RecipeUIClassLib.Areas.Recipes.Models
 
         [BindProperty]
         public string Instructions { get; set; }
-
-        public RecipeModel(IRecipeService recipeService, ICategoryService categoryService, ILogger logger)
+        
+        protected IEnumerable<CategoryViewModel> Categories
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
-            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+            get => BuildCategories().GetAwaiter().GetResult();
         }
 
-        protected async Task BuildCategories()
+        public RecipeModel(ICategoryWebApi categoryClient)
         {
-            if (null == _categories)
-            {
-                _logger.LogDebug("Getting categories");
-                _categories = await _categoryService.ListAsync();
-                _logger.LogDebug("Received {0} categories from the service.", _categories.Count());
-            }
-            Categories = (from cat in _categories
-                         select new SelectListItem(cat.Name, cat.Id)).ToList();
+            _categoryClient = categoryClient ?? throw new ArgumentNullException(nameof(categoryClient));
+        }
+
+        private async Task<IEnumerable<CategoryViewModel>> BuildCategories()
+        {
+            _categories ??= await _categoryClient.ListAsync();
+            UiCategories ??= (from cat in _categories select new SelectListItem(cat.Name, cat.Id)).ToList();
+            return _categories;
         }
 
         protected void ValidateRecipe()

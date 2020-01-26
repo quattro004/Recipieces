@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using RecipiecesWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipiecesWeb.Areas.Identity.Services;
 using RecipiecesWeb.Models;
 using RecipeUIClassLib.Areas.Recipes.Models;
@@ -17,6 +16,7 @@ using RecipiecesWeb.Areas.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using RecipeUIClassLib.Infrastructure.Interfaces;
+using Refit;
 
 namespace RecipiecesWeb
 {
@@ -104,15 +104,38 @@ namespace RecipiecesWeb
             });
             // services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
-            services.AddHttpClient<ICategoryService, CategoryService>();
-            services.AddHttpClient<IRecipeService, RecipeService>();
             services.Configure<RecipeApiOptions>(Configuration);
-            
+
+            var settings = new RefitSettings();
+            // Configure refit settings here
+            //
+            var recipeBaseUrl = Configuration.GetValue<string>("RecipeApiBaseUrl");
+            services.AddRefitClient<IRecipeWebApi>(settings)
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Path.Combine(recipeBaseUrl, "recipes")));
+            // Add additional IHttpClientBuilder chained methods as required here:
+            // .AddHttpMessageHandler<MyHandler>()
+            // .SetHandlerLifetime(TimeSpan.FromMinutes(2));
+
+            services.AddRefitClient<ICategoryWebApi>(settings)
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Path.Combine(recipeBaseUrl, "categories")));
+            // Add additional IHttpClientBuilder chained methods as required here:
+            // .AddHttpMessageHandler<MyHandler>()
+            // .SetHandlerLifetime(TimeSpan.FromMinutes(2));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", 
+            Justification = "Framework code")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

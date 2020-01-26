@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecipeUIClassLib.Areas.Recipes.Models;
-using RecipeUIClassLib.Areas.Recipes.Services;
 using RecipeUIClassLib.Infrastructure.Interfaces;
 
 namespace RecipeUIClassLib.Areas.Recipes.Pages
@@ -13,10 +12,14 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
     [Authorize]
     public class CreateModel : RecipeModel
     {
-        public CreateModel(IRecipeService recipeService, ICategoryService categoryService, ILogger<RecipeService> logger) 
-            : base(recipeService, categoryService, logger)
+        private readonly IRecipeWebApi _recipeClient;
+        private ILogger _logger;
+
+        public CreateModel(IRecipeWebApi recipeClient, ICategoryWebApi categoryClient, ILogger<CreateModel> logger) 
+            : base(categoryClient)
         {
-            BuildCategories().GetAwaiter().GetResult();
+            _recipeClient = recipeClient ?? throw new ArgumentNullException(nameof(recipeClient));
+            _logger = logger;
         }
 
         public IActionResult OnGet()
@@ -30,14 +33,15 @@ namespace RecipeUIClassLib.Areas.Recipes.Pages
             try
             {
                 BuildRecipe();
-                Recipe.Category = _categories.SingleOrDefault(c => c.Id == SelectedCategory);
-                await _recipeService.CreateAsync(Recipe);
+                Recipe.Category = Categories.SingleOrDefault(c => c.Id == SelectedCategory);
+                await _recipeClient.CreateAsync(Recipe);
 
                 if (!ModelState.IsValid)
                 {
                     return Page();
                 }
             }
+            // TODO: what exceptions should this catch?
             catch (Exception exc)
             {
                 _logger.LogError(exc, exc.Message);

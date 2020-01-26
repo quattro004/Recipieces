@@ -11,6 +11,7 @@ namespace AlbumApi.Controllers
     /// <summary>
     /// Manages albums.
     /// </summary>
+    [Produces("application/json")]
     [Route("[controller]")]
     public class AlbumsController : BaseController<Album<DataObject>>
     {
