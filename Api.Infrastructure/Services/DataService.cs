@@ -45,6 +45,7 @@ namespace Api.Infrastructure.Services
                 var database = client.GetDatabase(_options.DbName);
 
                 var name = typeof(T).Name;
+                // TODO: create if not exists?
                 _logger.LogDebug("Getting the {0} collection", name);
                 _data = database.GetCollection<T>(name);
             }

@@ -23,7 +23,7 @@ namespace Api.Domain.Controllers
         /// </summary>
         /// <param name="dataService"></param>
         /// <param name="logger"></param>
-        public BaseController(IDataService<T> dataService, ILogger logger)
+        protected BaseController(IDataService<T> dataService, ILogger logger)
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -34,9 +34,10 @@ namespace Api.Domain.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public virtual async Task<IEnumerable<T>> List()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public virtual async Task<ActionResult<IEnumerable<T>>> List()
         {
-            return await _dataService.ListAsync();
+            return Ok(await _dataService.ListAsync());
         }
 
         /// <summary>

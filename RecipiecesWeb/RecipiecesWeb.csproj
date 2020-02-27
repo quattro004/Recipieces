@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-RecipiecesWeb-59FF100B-014D-49FC-80EC-1B1E5DF75442</UserSecretsId>
@@ -32,6 +31,7 @@
    <ItemGroup>
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
-
+   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+     <Exec Command="copy $(ProjectDir)wwwroot\css\site.css ..\RecipiecesAlbum\ClientApp\src\site.css" />
+   </Target>
 </Project>
