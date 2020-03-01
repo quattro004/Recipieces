@@ -37,5 +37,16 @@ namespace RecipiecesAlbum.Controllers
         {
             return await base.GetData(id);
         }
+
+        [HttpGet]
+        public override async Task<ActionResult<IEnumerable<Album<DataObject>>>> List()
+        {
+            return await Task.FromResult(new List<Album<DataObject>>()
+            {
+                new Album<DataObject>() { Name = "Pictures", Description = "Pictures of the Hodge family", CreatedOn = DateTime.Now},
+                new Album<DataObject>() { Name = "Videos", Description = "Videos of the Hodge family", CreatedOn = DateTime.Now},
+                new Album<DataObject>() { Name = "Music", Description = "Beautiful music of the Hodge family", CreatedOn = DateTime.Now}
+            });
+        }
     }
 }

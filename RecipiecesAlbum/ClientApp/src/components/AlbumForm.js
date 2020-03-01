@@ -60,7 +60,7 @@ export class AlbumForm extends Component {
               <div class="form-group col">
                 <button type="submit" class="btn btn-primary">Create Album</button>
               </div>
-              <a href="Index">Back to List</a>
+              <a href="/">Back to List</a>
             </div>
           </Form>
         </Formik>
