@@ -20,6 +20,7 @@ export class FetchData extends Component {
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Created On</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@ export class FetchData extends Component {
             <tr key={album.id}>
                 <td>{album.name}</td>
                 <td>{album.description}</td>
+                <td>{album.createdOn}</td>
             </tr>
           )}
         </tbody>
