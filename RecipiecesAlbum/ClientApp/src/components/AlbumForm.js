@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+const axios = require('axios').default;
+const API_POST = 'albums';
 
 export class AlbumForm extends Component {
   render() {
@@ -29,26 +31,25 @@ export class AlbumForm extends Component {
               .max(50, 'Must be 50 characters or less')
               .required('Required'),
           })}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+          onSubmit={ async (values, { setSubmitting }) => {
+            const response = await axios.post(API_POST, values);
+            setSubmitting(false);
+            alert(JSON.stringify(response.data, null, 2));
           }}
         >
           <Form>
-            <div class="form-row">
-              <div class="form-group col">
+            <div className="form-row">
+              <div className="form-group col">
                 <RecipiecesInput
-                  autofocus
+                  autoFocus="autofocus"
                   name="name"
                   type="text"
                   placeholder="Name"
                 />
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col">
+            <div className="form-row">
+              <div className="form-group col">
                 <RecipiecesInput
                   name="description"
                   type="text"
@@ -56,9 +57,9 @@ export class AlbumForm extends Component {
                 />
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col">
-                <button type="submit" class="btn btn-primary">Create Album</button>
+            <div className="form-row">
+              <div className="form-group col">
+                <button type="submit" className="btn btn-primary">Create Album</button>
               </div>
               <a href="/">Back to List</a>
             </div>
@@ -68,5 +69,3 @@ export class AlbumForm extends Component {
     )
   }
 }
-
-export default AlbumForm

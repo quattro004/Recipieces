@@ -9,13 +9,11 @@ export class Layout extends Component {
     return (
       <div>
         <NavMenu />
-        <main role="main" class="pb-3">
           <Container>
-            {this.props.children}
+              {this.props.children}
           </Container>
-        </main>
-        <footer class="border-top footer text-muted">
-          <div class="container">
+        <footer className="border-top footer text-muted">
+          <div className="container">
             &copy; 2020 - Reese J. Hodge IV
           </div>
         </footer>
