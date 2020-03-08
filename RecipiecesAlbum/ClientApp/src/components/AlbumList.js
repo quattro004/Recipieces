@@ -5,7 +5,24 @@ const API_QUERY = 'albums';
 export class AlbumList extends Component {
   constructor(props) {
     super(props);
-    this.state = { albums: [], loading: true, error: null, };
+    this.timeIncrementMs = 33;
+    this.showSpinnerIfReturnGreaterThanMs = 100;
+    this.state = {
+      albums: [],
+      isLoading: true,
+      error: null,
+      msElapsed: 0,
+    };
+  }
+
+  componentWillMount() {
+    this.incrementer = setInterval(() =>
+      this.setState({
+        msElapsed: this.state.msElapsed + this.timeIncrementMs
+      }), this.timeIncrementMs);
+  }
+  componentWillUnmount() {
+    clearInterval(this.incrementer);
   }
 
   componentDidMount() {
@@ -16,10 +33,10 @@ export class AlbumList extends Component {
     console.log('Getting albums');
     try {
       const response = await axios.get(API_QUERY);
-      this.setState({ albums: response.data, loading: false });
+      this.setState({ albums: response.data, isLoading: false });
     } catch (err) {
       console.error(err);
-      this.setState({ err, loading: false });
+      this.setState({ err, isLoading: false });
     }
   }
 
@@ -47,12 +64,20 @@ export class AlbumList extends Component {
   }
 
   render() {
-    const { albums, loading, error } = this.state;
+    const { albums, isLoading, error, msElapsed } = this.state;
+
+    if (isLoading && msElapsed > this.showSpinnerIfReturnGreaterThanMs) {
+      return (
+        <div class="text-primary">
+          Loading Albums...
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        </div>
+      );
+    } else if (isLoading && msElapsed <= this.showSpinnerIfReturnGreaterThanMs) {
+      return (null);
+    } 
     if (error) {
       return <p>{error.message}</p>;
-    }
-    if (loading) {
-      return <p><em>Loading...</em></p>;
     }
     let contents = this.renderAlbumsTable(albums);
     return (
