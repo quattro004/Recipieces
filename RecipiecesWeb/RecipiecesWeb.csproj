@@ -32,6 +32,6 @@
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-     <Exec Command="copy $(ProjectDir)wwwroot\css\site.css ..\RecipiecesAlbum\ClientApp\src\site.css" />
+     <Exec Command="cp $(ProjectDir)wwwroot/css/site.css ../RecipiecesAlbum/ClientApp/src/site.css" />
    </Target>
 </Project>
