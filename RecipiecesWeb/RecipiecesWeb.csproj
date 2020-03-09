@@ -32,6 +32,9 @@
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-     <Exec Command="cp $(ProjectDir)wwwroot/css/site.css ../RecipiecesAlbum/ClientApp/src/site.css" />
+      <Exec Command="cp $(ProjectDir)wwwroot/css/site.css ../RecipiecesAlbum/ClientApp/src/site.css" 
+            Condition="'$(OS)' != 'Windows_NT' "/>
+      <Exec Command="copy $(ProjectDir)wwwroot\css\site.css ..\RecipiecesAlbum\ClientApp\src\site.css" 
+            Condition="'$(OS)' == 'Windows_NT' "/>
    </Target>
 </Project>
