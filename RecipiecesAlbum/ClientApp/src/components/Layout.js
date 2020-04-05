@@ -10,7 +10,9 @@ export class Layout extends Component {
       <div>
         <NavMenu />
           <Container>
+            <main role="main" className="pb-3">
               {this.props.children}
+            </main>
           </Container>
         <footer className="border-top footer text-muted">
           <div className="container">

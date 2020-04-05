@@ -69,7 +69,7 @@ export class AlbumList extends Component {
     if (isLoading && msElapsed > this.showSpinnerIfReturnGreaterThanMs) {
       return (
         <div class="text-primary">
-          Loading Albums...
+          Loading Albums...  
           <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
         </div>
       );
