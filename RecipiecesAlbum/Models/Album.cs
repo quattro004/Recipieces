@@ -11,14 +11,28 @@ namespace RecipiecesAlbum.Models
     /// </summary>
     public class Album<T> : DataObject where T : DataObject, new()
     {
+        public Album()
+        {
+            Contents = new List<T>();
+        }
+
+        /// <summary>
+        /// Name of the album.
+        /// </summary>
         [Required]
         [BsonElement("Name")]
         public string Name { get; set; }
         
+        /// <summary>
+        /// Description of the album.
+        /// </summary>
         [BsonElement("Description")]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Contents of the album.
+        /// </summary>
         [BsonElement("Contents")]
-        public IEnumerable<T> Contents { get; set; }
+        public IList<T> Contents { get; set; }
     }
 }

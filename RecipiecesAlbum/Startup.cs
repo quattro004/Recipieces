@@ -28,10 +28,10 @@ namespace RecipiecesAlbum
             Justification = "Framework code")]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IDataService<Album<DataObject>>, DataService<Album<DataObject>>>();
+            services.AddScoped<IDataService<Album<MediaContent>>, DataService<Album<MediaContent>>>();
             services.Configure<ApiOptions>(Configuration);
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

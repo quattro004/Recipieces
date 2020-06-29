@@ -15,17 +15,16 @@ export class AlbumList extends Component {
     };
   }
 
-  componentWillMount() {
-    this.incrementer = setInterval(() =>
-      this.setState({
-        msElapsed: this.state.msElapsed + this.timeIncrementMs
-      }), this.timeIncrementMs);
-  }
   componentWillUnmount() {
     clearInterval(this.incrementer);
   }
 
   componentDidMount() {
+    this.incrementer = setInterval(() =>
+      this.setState({
+        msElapsed: this.state.msElapsed + this.timeIncrementMs
+      }), this.timeIncrementMs);
+      
     this.getAlbums();
   }
 
@@ -42,7 +41,7 @@ export class AlbumList extends Component {
 
   renderAlbumsTable(albums) {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <table className='table table-striped' aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Name</th>
@@ -68,9 +67,9 @@ export class AlbumList extends Component {
 
     if (isLoading && msElapsed > this.showSpinnerIfReturnGreaterThanMs) {
       return (
-        <div class="text-primary">
+          <div className="text-primary">
           Loading Albums...  
-          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
         </div>
       );
     } else if (isLoading && msElapsed <= this.showSpinnerIfReturnGreaterThanMs) {
@@ -82,7 +81,7 @@ export class AlbumList extends Component {
     let contents = this.renderAlbumsTable(albums);
     return (
       <div>
-        <h1 id="tabelLabel">Recipieces Albums</h1>
+        <h1 id="tableLabel">Recipieces Albums</h1>
         {contents}
         <div>
           <a className="btn btn-primary" href="/albums/create">Create</a>

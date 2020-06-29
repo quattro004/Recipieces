@@ -1,11 +1,5 @@
 ﻿using Api.Infrastructure.Models;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RecipiecesAlbum.Models
 {
@@ -14,16 +8,16 @@ namespace RecipiecesAlbum.Models
     /// </summary>
     public class MediaContent : DataObject
     {
-        [Required]
+        /// <summary>
+        /// Name of the content to display in the UI.
+        /// </summary>
         [BsonElement("Name")]
-        public string Name { get; set; }
+        public string Name {get; set; }
 
-        [BsonElement("DateTaken")]
-        public DateTime? DateTaken { get; set; }
-
-        public Stream Data { get; set; }
-
-        [BsonElement("Description")]
-        public string Description { get; set; }
+        /// <summary>
+        /// Physical path to the content.
+        /// </summary>
+        [BsonElement("Path")]
+        public string Path { get; set; }
     }
 }
