@@ -5,7 +5,7 @@ import { Field } from 'formik';
 export class MyDropZone extends Component {
     constructor(props) {
         super(props);
-        this.MaxSize = 2516582;
+        this.MaxSize = 25165824;
         this.state = {
             acceptedFiles: [],
             rejectedFiles: [],
