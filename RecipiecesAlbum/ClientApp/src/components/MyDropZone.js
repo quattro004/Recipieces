@@ -5,17 +5,19 @@ import { Field } from 'formik';
 export class MyDropZone extends Component {
     constructor(props) {
         super(props);
+        this.MaxSize = 2516582;
         this.state = {
-            droppedFiles: [],
+            acceptedFiles: [],
+            rejectedFiles: [],
         };
     }
 
-    captureFiles(files) {
-        const { droppedFiles } = this.state;
+    acceptFiles(files) {
+        const { acceptedFiles } = this.state;
         
-        if (droppedFiles.length === 0) {
+        if (acceptedFiles.length === 0) {
             this.setState({
-                droppedFiles: files
+                acceptedFiles: files
             });
             return;
         }
@@ -25,10 +27,14 @@ export class MyDropZone extends Component {
                 accumulator.push(currentValue);
             }
             return accumulator;
-        }, droppedFiles);
+        }, acceptedFiles);
         this.setState({
-            droppedFiles: mergedFiles
+            acceptedFiles: mergedFiles
         });
+    }
+
+    rejectFiles(rejectedFiles) {
+        this.setState({ rejectedFiles: rejectedFiles });
     }
 
     returnFileSize(number) {
@@ -41,11 +47,31 @@ export class MyDropZone extends Component {
         }
     }
 
-    displayFiles(droppedFiles) {
+    displayFiles(acceptedFiles, rejectedFiles) {
         return (
-            <div className="row row-cols-3">
-                {droppedFiles.map((file, index, arr) =>
-                    <div key={index} className="col-3 mb-2">
+            <div className="row">
+                {rejectedFiles.map((file, index, arr) =>
+                    <div key={index} 
+                        className={rejectedFiles.length === 1 ? "col-12 mb-2" : "col-6 mb-2"}>
+                        <div className="card shadow-sm text-danger bg-dark">
+                            <div className="card-body">
+                                <small className="card-title">
+                                    Invalid File: {file.name}
+                                </small>
+                                <div className="card-title">
+                                    Max Size is {this.returnFileSize(this.MaxSize)}
+                                </div>
+                                <p className="card-text">
+                                    <small className="text-muted">
+                                       Size: {this.returnFileSize(file.size)} Type: {file.type}
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {acceptedFiles.map((file, index, arr) =>
+                    <div key={index} className="col-4 mb-2">
                         <div className="card shadow-sm text-white bg-dark">
                             <Field as="img"
                                 name={`contents[${index}]`}
@@ -69,16 +95,18 @@ export class MyDropZone extends Component {
     }
 
     render() {
-        const { droppedFiles } = this.state;
-        let contents = droppedFiles ? this.displayFiles(droppedFiles) : null;
+        const { acceptedFiles, rejectedFiles } = this.state;
+        let contents = (acceptedFiles || rejectedFiles)
+            ? this.displayFiles(acceptedFiles, rejectedFiles) 
+            : null;
 
        return (
             <div>
-                {/* TODO: when max size is exceeded display message */}
                 <Dropzone data-testid="myDropZone" 
-                    onDropAccepted={droppedFiles => this.captureFiles(droppedFiles)}
+                    onDropAccepted={acceptedFiles => this.acceptFiles(acceptedFiles)}
+                    onDropRejected={rejectedFiles => this.rejectFiles(rejectedFiles)}
                     minSize={0}
-                    maxSize={25165824}>
+                    maxSize={this.MaxSize}>
                     {({ getRootProps, getInputProps }) => (
                         <section>
                             <div {...getRootProps({ className: 'dropzone' })}>

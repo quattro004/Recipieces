@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Api.Domain.Controllers;
 using Api.Domain.Interfaces;
 using Api.Infrastructure.Models;
 using Microsoft.AspNetCore.Http;

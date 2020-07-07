@@ -12,11 +12,8 @@ export class AlbumForm extends Component {
     this.state = {
       isLoading: true,
       error: null,
-      nameRequired: true,
     };
     this.albumDropZone = React.createRef();
-    this.handleCancel = this.handleCancel.bind(this);
-    this.onBlur = this.onBlur.bind(this);
   }
 
  createAlbum(albumData) {
@@ -55,23 +52,7 @@ export class AlbumForm extends Component {
     });
   }
 
-  handleCancel() {
-    console.debug('handleCancel');
-    this.setState({ nameRequired: false });
-  }
-
-  onBlur(event) {
-    console.debug('onBlur');
-    let target = event.target;
-    if (target.value !== undefined && target.value.trim() === '') {
-      this.setState({ nameRequired: true });
-    } else {
-      this.setState({ nameRequired: false });
-    } 
-  }
-
   render() {
-    // TODO: put this into it's own file
     const RecipiecesInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
     // which we can spread on <input> and also replace ErrorMessage entirely.
@@ -105,8 +86,14 @@ export class AlbumForm extends Component {
             })}
           onSubmit={async (values, { setSubmitting }) => {
             console.debug('onSubmit()');
-            values.contents = this.albumDropZone.current.state.droppedFiles;
-            this.createAlbum(values);
+            let albumDropZoneState = this.albumDropZone.current.state;
+            values.contents = albumDropZoneState.acceptedFiles;
+            if (values.contents && values.contents.length > 0) {
+              this.createAlbum(values);
+            } else if (albumDropZoneState.rejectedFiles && albumDropZoneState.rejectedFiles.length > 0) {
+              // TODO: is this necessary?
+              this.setState({error: {message: 'Cannot create album with invalid files'}});
+            }
             setSubmitting(false);
           }} >
           {({ values, touched, errors, dirty, isSubmitting }) => (
@@ -118,7 +105,6 @@ export class AlbumForm extends Component {
                     name="name"
                     type="text"
                     placeholder="Name"
-                    // onBlur={this.onBlur}
                   />
                 </div>
                 <div className="col">
@@ -142,12 +128,13 @@ export class AlbumForm extends Component {
                       <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                     </button>
                   ) :
-                    <button name="createAlbumButton" type="submit" className="btn btn-primary">
+                    <button name="createAlbumButton" type="submit" className="btn btn-primary" 
+                            disabled={errors.name || errors.rejectedFiles}>
                       Create Album
-                        </button>
+                    </button>
                   }
                 </div>
-                <a href="/" onClick={this.handleCancel} >Back to List</a>
+                <a name="cancelLink" href="/" >Back to List</a>
               </div>
             </Form>
           )}
