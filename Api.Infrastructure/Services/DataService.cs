@@ -8,6 +8,8 @@ using Api.Domain.Interfaces;
 using Api.Infrastructure.Extensions;
 using Api.Infrastructure.Properties;
 using Api.Infrastructure.Models;
+using System.Linq;
+using MongoDB.Bson;
 
 namespace Api.Infrastructure.Services
 {
@@ -17,9 +19,7 @@ namespace Api.Infrastructure.Services
     public class DataService<T> : IDataService<T> where T : DataObject, new()
     {
         private readonly ILogger _logger;
-        private readonly ApiOptions _options;
         private readonly IMongoCollection<T> _data;
-
 
         /// <summary>
         /// Constructs a data service 
@@ -29,31 +29,33 @@ namespace Api.Infrastructure.Services
         public DataService(IOptionsMonitor<ApiOptions> optionsAccessor, ILogger<DataService<T>> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _options = optionsAccessor?.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
+            var options = optionsAccessor?.CurrentValue ?? throw new ArgumentNullException(nameof(optionsAccessor));
+           _data = GetOrCreateCollection(options);
+        }
 
-            try
+        private IMongoCollection<T> GetOrCreateCollection(ApiOptions options)
+        {
+            _logger.LogDebug("Creating a MongoClient");
+            var connectionString = options.ConnectionString;
+            if (connectionString.IsNullOrWhiteSpace())
             {
-                _logger.LogDebug("Creating a MongoClient");
-                var connectionString = _options.ConnectionString;
-                if (connectionString.IsNullOrWhiteSpace())
-                {
-                    throw new ArgumentException(Resources.ConnStringRequired);
-                }
-                _logger.LogDebug("Connection string is {0}", connectionString);
-                var client = new MongoClient(connectionString);
-                _logger.LogDebug("Getting database {0}", _options.DbName);
-                var database = client.GetDatabase(_options.DbName);
-
-                var name = typeof(T).Name;
-                // TODO: create if not exists?
-                _logger.LogDebug("Getting the {0} collection", name);
-                _data = database.GetCollection<T>(name);
+                throw new ArgumentException(Resources.ConnStringRequired);
             }
-            catch (Exception exc)
+            _logger.LogDebug("Connection string is {0}", connectionString);
+            _logger.LogDebug("Getting database {0}", options.DbName);
+            var client = new MongoClient(connectionString);
+            var database = client.GetDatabase(options.DbName);
+            var collectionName = typeof(T).Name;
+            _logger.LogDebug("Looking for the {0} collection", collectionName);
+            var collectionExists = database
+                .ListCollectionNames(new ListCollectionNamesOptions { Filter = new BsonDocument("name", collectionName) })
+                .Any();
+            if (!collectionExists)
             {
-                _logger.LogError(exc.Message, exc);
-                throw;
+                _logger.LogDebug("Collection didn't exist, creating");
+                database.CreateCollection(collectionName);
             }
+            return database.GetCollection<T>(collectionName);
         }
 
         /// <summary>
