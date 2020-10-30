@@ -43,7 +43,9 @@ namespace RecipeApi
         {
             services.AddScoped<IDataService<Category>, DataService<Category>>();
             services.AddScoped<IDataService<Recipe>, DataService <Recipe>>();
-            services.Configure<ApiOptions>(Configuration);
+            services.AddOptions()
+                    .Configure<ApiOptions>(Configuration)
+                    .Configure<ApiOptions>(x => x.MongoDbConnection = Configuration.GetConnectionString("MongoDbConnection"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

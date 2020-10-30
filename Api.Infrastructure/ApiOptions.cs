@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.Infrastructure
 {
@@ -8,13 +9,23 @@ namespace Api.Infrastructure
     public class ApiOptions
     {
         /// <summary>
-        /// Data connection string.
+        /// Mongo Db connection string.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string MongoDbConnection { get; set; }
         
         /// <summary>
         /// Mongo database name.
         /// </summary>
         public string DbName { get; set; }
+
+        /// <summary>
+        /// Path where the album contents are stored.
+        /// </summary>
+        public string AlbumContentPath { get; set; }
+
+        /// <summary>
+        /// Limit of the size of album content files in bytes.
+        /// </summary>
+        public long FileSizeLimit { get; set; }
     }
 }

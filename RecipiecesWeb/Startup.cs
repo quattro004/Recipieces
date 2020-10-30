@@ -17,6 +17,10 @@ using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using RecipeUIClassLib.Infrastructure.Interfaces;
 using Refit;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Api.Domain.Interfaces;
+using Api.Infrastructure.Services;
+using Api.Infrastructure;
 
 namespace RecipiecesWeb
 {
@@ -32,7 +36,7 @@ namespace RecipiecesWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            const string containerPath = @"/app/data";
+            var containerPath = Configuration.GetValue<string>("DataPath");
             DirectoryInfo dataKeyDirectory;
 
             if (Directory.Exists(containerPath))
@@ -104,26 +108,30 @@ namespace RecipiecesWeb
             });
             // services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
-            services.Configure<RecipeApiOptions>(Configuration);
-
+            services.AddOptions()
+                    .Configure<ApiOptions>(Configuration)
+                    .Configure<ApiOptions>(x => x.MongoDbConnection = Configuration.GetConnectionString("MongoDbConnection"));
+            services.AddScoped<IDataService<Album<MediaContent>>, DataService<Album<MediaContent>>>();
             var settings = new RefitSettings();
             // Configure refit settings here
             //
             var recipeBaseUrl = Configuration.GetValue<string>("RecipeApiBaseUrl");
             services.AddRefitClient<IRecipeWebApi>(settings)
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(Path.Combine(recipeBaseUrl, "recipes")));
-            // Add additional IHttpClientBuilder chained methods as required here:
-            // .AddHttpMessageHandler<MyHandler>()
-            // .SetHandlerLifetime(TimeSpan.FromMinutes(2));
-
             services.AddRefitClient<ICategoryWebApi>(settings)
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(Path.Combine(recipeBaseUrl, "categories")));
             // Add additional IHttpClientBuilder chained methods as required here:
             // .AddHttpMessageHandler<MyHandler>()
             // .SetHandlerLifetime(TimeSpan.FromMinutes(2));
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
+            //
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
 
@@ -153,6 +161,8 @@ namespace RecipiecesWeb
             });
 
             app.UseFileServer();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseRouting();
             app.UseCookiePolicy();
             app.UseAuthentication();
@@ -160,6 +170,16 @@ namespace RecipiecesWeb
             app.UseEndpoints(endpoints => {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
+            });
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    // spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3005");
+                }
             });
         }
     }

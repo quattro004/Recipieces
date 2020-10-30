@@ -45,6 +45,7 @@ namespace Api.Domain.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A <see cref="IDataObject" /> if one exists by the identifier.</returns>
+        [HttpGet("{id:length(24)}", Name="GetData")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public virtual async Task<ActionResult<T>> GetData(string id)

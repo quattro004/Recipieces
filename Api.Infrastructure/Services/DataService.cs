@@ -36,12 +36,12 @@ namespace Api.Infrastructure.Services
         private IMongoCollection<T> GetOrCreateCollection(ApiOptions options)
         {
             _logger.LogDebug("Creating a MongoClient");
-            var connectionString = options.ConnectionString;
+            var connectionString = options.MongoDbConnection;
+            _logger.LogDebug("Connection string is {0}", connectionString);
             if (connectionString.IsNullOrWhiteSpace())
             {
                 throw new ArgumentException(Resources.ConnStringRequired);
             }
-            _logger.LogDebug("Connection string is {0}", connectionString);
             _logger.LogDebug("Getting database {0}", options.DbName);
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase(options.DbName);
